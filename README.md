@@ -29,7 +29,6 @@ Autores
 
 <table>
   <tr>
-    <td align="center"><a href="https://www.linkedin.com/in/matheusbatistela/"><img style="border-radius: 50%;" src="https://avatars.githubusercontent.com/u/42747473?v=4" width="100px;" alt=""/></a><br /><a href="https://www.linkedin.com/in/matheusbatistela/" title="Matheus Batistela"><img href="https://www.linkedin.com/in/matheusbatistela/" src="https://img.shields.io/badge/-MatheusBatistela-0077B5?style=flat&logo=Linkedin&logoColor=white&link=https://www.linkedin.com/in/matheusbatistela/"></a></td>
     <td align="center"><a href="https://www.linkedin.com/in/hmarcuzzo/"><img style="border-radius: 50%;" src="https://avatars2.githubusercontent.com/u/42159311?v=4" width="100px;" alt=""/></a><br /><a href="https://www.linkedin.com/in/hmarcuzzo/" title="Henrique Marcuzzo"><img href="https://www.linkedin.com/in/hmarcuzzo/" src="https://img.shields.io/badge/-HenriqueMarcuzzo-0077B5?style=flat&logo=Linkedin&logoColor=white&link=https://www.linkedin.com/in/hmarcuzzo/"></a></td>
   </tr>
 </table>
