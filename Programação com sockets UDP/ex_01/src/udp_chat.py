@@ -1,12 +1,22 @@
-"""Este código é responsavel pela parte do servidor e comunicação com o cliente, ele ira tratar as requisições
-do cliente e processa-las de acordo, e em seguida irá retornar uma respostas via socket TCP.
+"""Este é um char P2P que trabalha com código UDP, e foi adaptado para executar em uma máquina só,
+caso exista mais de uma máquina, alguns ajustes devem ser feito na parte de conexão.
+
+Protocolo:
+Para compreender melhor o protocolo utilizado nesta implementação, recomendo fortemente que leia o PDF
+"Atividade 02 - UDP.pdf", mas uma rápida explicação do protocolo seria:
+
+     1 byte             0 - 255 bytes
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|   Nick Size   |      Nick [Nick Size]     |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+| Message Size  |   Message [Message Size]  |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 
 Autores:
-    @hmarcuzzo
-    @mathbatistela
+    @hmarcuzzo (Henrique Marcuzzo)
 
 Data de Criação: 15 de Jul de 2021
-Ultima alteração: 15 de Jul de 2021
+Ultima alteração: 16 de Jul de 2021
 """
 
 import copy
@@ -27,11 +37,11 @@ bufferSize = 1024
 
 
 def recive_message(sock, server_address):
-    """Este método irá receber uma requisição, processa-la de acordo com o código da requisição
-    e enviar uma resposta para o cliente que fez a requisição.
+    """Este método irá executar em paralelo com a thread main, ficando essa thread responsável por escutar
+    todos os pacotes que vierem pela porta especificada.
 
-    :param sock: ...
-    :param server_address: ...
+    :param sock: socket UDP.
+    :param server_address: tupla de IP e porta que será recebido as menssagens.
     """
     global bufferSize
 
@@ -41,7 +51,18 @@ def recive_message(sock, server_address):
         message = bytesAddressPair[0]
         address = bytesAddressPair[1]
 
-        print(message)
+        len_nickname = int.from_bytes(message[0:1], BYTEORDER)
+        nickname = message[1:(len_nickname + 1)].decode('utf-8')
+
+        i_index = len_nickname + 1
+        f_index = i_index + 1
+        len_message = int.from_bytes(message[i_index:f_index], BYTEORDER)
+
+        i_index = f_index
+        f_index = i_index + len_message
+        message = message[i_index:f_index].decode('utf-8')
+
+        print('{}: {}'.format(nickname, message))
 
 
 if __name__ == '__main__':
@@ -55,7 +76,7 @@ if __name__ == '__main__':
     if adress == '':
         adress = '127.0.0.1'
 
-    # Criando o socket UDP
+    # Criando o socket de datagrama UDP
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
     # Ligar o socket a sua porta UDP
@@ -64,7 +85,7 @@ if __name__ == '__main__':
     try:
         sock.bind(listen_address)
 
-        # Esperando por uma conexão
+        # Conexão criada e esperando
         print('UDP server up and listening')
 
     except OSError:
@@ -75,6 +96,7 @@ if __name__ == '__main__':
     # Criar uma thread para recebimento de menssagens
     _thread.start_new_thread(recive_message, (sock, listen_address))
 
+    # Thread principal fica responsável pelo envio de mensagens para a endereço especificado
     while True:
         send_message = len_nickname.to_bytes(1, BYTEORDER)
         send_message += bytes(nickname, 'utf-8')
