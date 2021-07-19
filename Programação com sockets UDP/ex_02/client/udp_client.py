@@ -41,9 +41,11 @@ Ultima alteração: 16 de Jul de 2021
 import socket
 import os
 import hashlib
+import time
 
 
 # GLOBAL VARIABLES
+
 bufferSize = 4096
 serverAddressPort = ("127.0.0.1", 20001)
 LOCAL_CLIENT = ''
@@ -77,6 +79,8 @@ if __name__ == '__main__':
                     for data in file_to_send:
                         request_message = data
                         UDPClientSocket.sendto(request_message, serverAddressPort)
+                        print('dormi')
+                        time.sleep(0.1)
 
                 # Criando a hash MD5 do arquivo enviado para o checksum
                 md5_hash = hashlib.md5()

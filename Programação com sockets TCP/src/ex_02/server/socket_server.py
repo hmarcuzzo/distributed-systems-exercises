@@ -181,7 +181,7 @@ if __name__ == '__main__':
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
     # Ligar o socket a sua porta TCP
-    server_address = ('localhost', 10000)
+    server_address = ('localhost', 10100)
     print(f'starting up on {server_address[0]} port {server_address[1]}')
     sock.bind(server_address)
 
@@ -189,7 +189,7 @@ if __name__ == '__main__':
     print('waiting for a connection')
 
     # Escutando novas conexões.
-    sock.listen(5)
+    sock.listen(1)
 
     # Criar uma thread para cada nova conexão
     while True:

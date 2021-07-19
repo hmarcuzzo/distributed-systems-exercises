@@ -91,7 +91,7 @@ if __name__ == '__main__':
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
     # Conecta o socket a porta onde o servidor está escutando
-    server_address = ['localhost', 10000]
+    server_address = ['localhost', 10100]
     # server_address[0] = input('IP adress: ')
     # server_address[1] = int(input('Port: '))
     print(f'connecting to {server_address[0]} port {server_address[1]}')
