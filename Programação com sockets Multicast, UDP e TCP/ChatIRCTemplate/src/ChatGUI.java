@@ -164,7 +164,7 @@ public class ChatGUI extends javax.swing.JFrame implements UIControl {
         pnlOpcoes.add(txtPorta, gridBagConstraints);
 
         txtApelido.setColumns(10);
-        txtApelido.setText("campiolo");
+        txtApelido.setText("marcuzzo");
         txtApelido.setMinimumSize(new java.awt.Dimension(114, 19));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;

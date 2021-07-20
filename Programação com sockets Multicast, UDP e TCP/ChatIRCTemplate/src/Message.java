@@ -1,6 +1,6 @@
 /*
  * Classe representa uma mensagem
- * @author Rodrigo
+ * @author Rodrigo Campiolo
  */
 
 public class Message {

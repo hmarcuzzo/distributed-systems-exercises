@@ -9,7 +9,7 @@ import java.util.Properties;
 
 /**
  * Gerencia o protocolo e o processamento das mensagens
- * @author rodrigo
+ * @author Rodrigo Campiolo
  * @author Henrique Marcuzzo (@hmarcuzzo)
  */
 public class ProtocolController {
@@ -53,7 +53,6 @@ public class ProtocolController {
         } else {
             typeMsg = (byte) 0x04;
             message = new Message(typeMsg, this.nick, msg);
-
             this.sendMessage(message, onlineUsers.get(targetUser));
         }
 
@@ -103,15 +102,16 @@ public class ProtocolController {
         Message message = new Message(p.getData());
 
         byte typeMsg = message.getType();
-        System.out.println(typeMsg);
+        // System.out.println(typeMsg);
 
         InetAddress pAddr = p.getAddress();
-        System.out.println(pAddr);
-        System.out.println(this.ipAddr);
+        // System.out.println(pAddr);
+        // System.out.println(this.ipAddr);
 
         switch (typeMsg) {
             case 1:
                 this.ui.update(message);
+                onlineUsers.put(message.getSource(), pAddr);
 
                 if (!pAddr.equals(this.ipAddr)) {  
                     Message joinAck = new Message((byte) 0x02, this.nick, "");
@@ -121,28 +121,27 @@ public class ProtocolController {
 
             case 2:
                 this.ui.update(message);
-                // Message joinAck = new Message((byte) 0x02, this.nick, "");
-                // this.sendMessage(joinAck, p.getAddress());
+                onlineUsers.put(message.getSource(), pAddr);
                 break;
 
             case 3:
 
-                if (!pAddr.equals(this.multicastSocket.getInetAddress()) 
-                && !pAddr.equals(this.udpSocket.getInetAddress())) {    
+                if (!pAddr.equals(this.ipAddr)) {    
                     this.ui.update(message);
                 } 
                 break;
 
             case 4:
 
-                if (!pAddr.equals(this.multicastSocket.getInetAddress()) 
-                && !pAddr.equals(this.udpSocket.getInetAddress())) {    
+                if (!pAddr.equals(this.ipAddr)) {    
                     this.ui.update(message);
                 } 
                 break;
 
             case 5:
-                ui.update(message);
+                this.ui.update(message);
+
+                onlineUsers.remove(message.getSource());
                 break;
 
         }
@@ -161,7 +160,6 @@ public class ProtocolController {
         DatagramPacket packet = new DatagramPacket(new byte[1024], 1024);
         this.udpSocket.receive(packet);
         
-        this.processPacket(packet);
-    
-    }
+        this.processPacket(packet);       
+    }    
 }

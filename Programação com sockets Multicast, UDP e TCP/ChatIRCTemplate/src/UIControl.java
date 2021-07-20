@@ -1,7 +1,7 @@
 
 /**
  * Interface para implementar a atualização da UI
- * @author rodrigo
+ * @author Rodrigo Campiolo
  */
 public interface UIControl {
     public void update(Message m);
