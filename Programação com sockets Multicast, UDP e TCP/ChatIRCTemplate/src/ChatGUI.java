@@ -395,7 +395,7 @@ public class ChatGUI extends javax.swing.JFrame implements UIControl {
                 this.remNickname(m.getSource());
                 break;
         }
-        
+
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

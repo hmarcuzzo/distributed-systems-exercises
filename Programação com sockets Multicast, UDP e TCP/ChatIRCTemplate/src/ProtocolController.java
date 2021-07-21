@@ -50,6 +50,12 @@ public class ProtocolController {
             message = new Message(typeMsg, this.nick, msg);
             
             this.sendMessageGroup(message);
+        } 
+        else if (msg.equals("#INFOUSER")) {
+            System.out.println("Estou aqui");
+            typeMsg = (byte) 0x06;
+            message = new Message(typeMsg, this.nick, msg);
+            this.sendMessage(message, onlineUsers.get(targetUser));
         } else {
             typeMsg = (byte) 0x04;
             message = new Message(typeMsg, this.nick, msg);
@@ -102,37 +108,35 @@ public class ProtocolController {
         Message message = new Message(p.getData());
 
         byte typeMsg = message.getType();
-        // System.out.println(typeMsg);
-
+        
         InetAddress pAddr = p.getAddress();
-        // System.out.println(pAddr);
+        System.out.println("IP origem: " + pAddr + ", Type message: " + typeMsg);
+        // System.out.println(typeMsg);
         // System.out.println(this.ipAddr);
-
+        
         switch (typeMsg) {
             case 1:
                 this.ui.update(message);
                 onlineUsers.put(message.getSource(), pAddr);
-
+                
                 if (!pAddr.equals(this.ipAddr)) {  
                     Message joinAck = new Message((byte) 0x02, this.nick, "");
                     this.sendMessage(joinAck, p.getAddress());
                 }
                 break;
-
+            
             case 2:
                 this.ui.update(message);
                 onlineUsers.put(message.getSource(), pAddr);
                 break;
-
+            
             case 3:
-
                 if (!pAddr.equals(this.ipAddr)) {    
                     this.ui.update(message);
                 } 
                 break;
-
+            
             case 4:
-
                 if (!pAddr.equals(this.ipAddr)) {    
                     this.ui.update(message);
                 } 
@@ -142,6 +146,13 @@ public class ProtocolController {
                 this.ui.update(message);
 
                 onlineUsers.remove(message.getSource());
+                break;
+            
+            case 6:
+                System.out.println("Entrei");
+                String responseMessage = this.ipAddr.toString();
+                send(message.getSource(), responseMessage);
+                this.ui.update(message);
                 break;
 
         }

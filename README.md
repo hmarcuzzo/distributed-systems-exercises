@@ -3,6 +3,7 @@
 
 <div align="center">
   <img src="https://img.shields.io/badge/python-%23007ACC.svg?&style=for-the-badge&logo=python&logoColor=white">
+  <img alt="Java" src="https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=java&logoColor=white"/>
 </div>
 
 [comment]: <> (<h4 align="center"> )
@@ -22,7 +23,8 @@ Pre-requisitos
 ==============
 
 Antes de começar, vai precisar ter instalado na sua máquina as seguintes ferramentas:
-- [Python](https://www.python.org/);
+- [Python](https://www.python.org/)
+- [Java](https://www.oracle.com/br/java/technologies/javase-jdk11-downloads.html)
 
 Autores
 =======

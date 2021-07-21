@@ -1,4 +1,4 @@
-<h1 align="center">Programação com sockets TCP</h1>
+<h1 align="center">Programação com sockets UDP</h1>
 <p href="#descricao" align="center">Exercícios avalativos de Sistemas Distribuidos utilizando sockets UDP.</p>
 
 <div align="center">
