@@ -4,6 +4,7 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.MulticastSocket;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Properties;
 
@@ -105,7 +106,7 @@ public class ProtocolController {
     }
 
     public void processPacket(DatagramPacket p) throws IOException {
-        Message message = new Message(p.getData());
+        Message message = new Message(Arrays.copyOf(p.getData(), p.getLength()));
 
         byte typeMsg = message.getType();
         
@@ -137,6 +138,7 @@ public class ProtocolController {
                 break;
             
             case 4:
+                System.out.println(message.getMessage().length());
                 if (!pAddr.equals(this.ipAddr)) {    
                     this.ui.update(message);
                 } 
