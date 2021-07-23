@@ -12,6 +12,7 @@ import java.util.Properties;
  * Gerencia o protocolo e o processamento das mensagens
  * @author Rodrigo Campiolo
  * @author Henrique Marcuzzo (@hmarcuzzo)
+ * @author Rafael Soratto (@soratoorafa)
  */
 public class ProtocolController {
 
@@ -53,7 +54,6 @@ public class ProtocolController {
             this.sendMessageGroup(message);
         } 
         else if (msg.equals("#INFOUSER")) {
-            System.out.println("Estou aqui");
             typeMsg = (byte) 0x06;
             message = new Message(typeMsg, this.nick, msg);
             this.sendMessage(message, onlineUsers.get(targetUser));
@@ -111,7 +111,7 @@ public class ProtocolController {
         byte typeMsg = message.getType();
         
         InetAddress pAddr = p.getAddress();
-        System.out.println("IP origem: " + pAddr + ", Type message: " + typeMsg);
+        // System.out.println("IP origem: " + pAddr + ", Type message: " + typeMsg);
         // System.out.println(typeMsg);
         // System.out.println(this.ipAddr);
         
@@ -138,7 +138,6 @@ public class ProtocolController {
                 break;
             
             case 4:
-                System.out.println(message.getMessage().length());
                 if (!pAddr.equals(this.ipAddr)) {    
                     this.ui.update(message);
                 } 
@@ -151,10 +150,9 @@ public class ProtocolController {
                 break;
             
             case 6:
-                System.out.println("Entrei");
+                this.ui.update(message);
                 String responseMessage = this.ipAddr.toString();
                 send(message.getSource(), responseMessage);
-                this.ui.update(message);
                 break;
 
         }
