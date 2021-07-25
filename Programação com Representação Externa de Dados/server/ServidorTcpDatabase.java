@@ -12,9 +12,12 @@
  * Ultima alteração: 25 de Jul de 2021
  */
 
-import java.net.*;
-import java.io.*;
-import java.util.Arrays;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
+import org.json.JSONObject;
 
 
 public class ServidorTcpDatabase {
@@ -101,7 +104,9 @@ class ClientThread extends Thread {
                     //TODO: handle exception
                 }
             } else {
-                // TODO: Fazer a conversão do formato JSON
+                JSONObject discipline = new JSONObject(new String(buffer));
+                System.out.println("--\n" + discipline + "\n--\n");
+                // System.out.println("--\n" + discipline.getInt("RA") + "\n--\n");
             }
         }
 

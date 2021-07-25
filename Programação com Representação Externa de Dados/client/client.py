@@ -18,7 +18,7 @@ Ultima alteração: 25 de Jul de 2021
 
 import socket
 import database_pb2
-import pickle
+import jsonpickle
 
 # VARIÁVEIS GLOBAIS
 PROTOCOL_MESSAGE = 'protobuf'
@@ -162,7 +162,7 @@ def generate_json_message(data):
         'faltas': data[5]
     }
 
-    return pickle.dumps(json_data)
+    return jsonpickle.encode(json_data).encode()
 
 
 def send_request(client_socket, request_type, message):
@@ -220,7 +220,7 @@ if __name__ == '__main__':
             message = generate_protobuf_message(data)
         else:
             message = generate_json_message(data)
-        
+
         message_size = len(message)
 
         # Protocolo de envio da mensagem
