@@ -19,10 +19,21 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import org.json.JSONObject;
 
+import java.net.*;
+import java.io.*;
+import java.sql.*;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 public class ServidorTcpDatabase {
+    static Connection db_connection;
+    private static Charset UTF8_CHARSET = Charset.forName("UTF-8");
+   
     public static void main(String args[]) {
+        db_connection = SQLiteConnection.connect();
         try {
+            // Conexao com banco de dados
+
             int serverPort = 7000; 
             ServerSocket listenSocket = new ServerSocket(serverPort);
             while (true) {    
@@ -80,6 +91,7 @@ class ClientThread extends Thread {
             }
             
             try {
+                 /* Recebe a mensagem */
                 messageSize = in.readLine();
                 int sizeBuffer = Integer.valueOf(messageSize);
                 buffer = new byte[sizeBuffer];
