@@ -13,7 +13,7 @@ import java.sql.*;
 
 public class Controller {
 
-  public static String addNotaForJson(Request request, Response response, Connection db_connection) {
+  public static String add_grade_for_json(Request request, Response response, Connection db_connection) {
     /* GET DATA */
     int RA = request.get_RA();
     String discipline_code = request.get_discipline_code();
@@ -58,7 +58,7 @@ public class Controller {
     return "1";
   }
 
-  public static String rmNotaForJson(Request request, Response response, Connection db_connection) {
+  public static String remmove_grade_for_json(Request request, Response response, Connection db_connection) {
     /* Obtendo os dados para a busca e insercao */
     int RA = request.get_RA();
     String discipline_code = request.get_discipline_code();
@@ -101,7 +101,7 @@ public class Controller {
     return "1";
   }
 
-  public static String listStudentsForJson(Request request, Response response, Connection db_connection) {
+  public static String list_students_for_json(Request request, Response response, Connection db_connection) {
     /* Obtendo os dados para a busca */
     String discipline_code = request.get_discipline_code();
     int year = request.get_year();

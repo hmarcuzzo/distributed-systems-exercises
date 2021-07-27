@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import org.json.JSONObject;
+import com.google.gson.*;
 
 import java.net.*;
 import java.io.*;
@@ -27,7 +28,6 @@ import java.nio.charset.StandardCharsets;
 
 public class ServidorTcpDatabase {
     static Connection db_connection;
-    private static Charset UTF8_CHARSET = Charset.forName("UTF-8");
    
     public static void main(String args[]) {
         db_connection = SQLiteConnection.connect();
@@ -40,7 +40,7 @@ public class ServidorTcpDatabase {
                 Socket clientSocket = listenSocket.accept();
                 
                 /* cria um thread para atender a conexao */
-                ClientThread c = new ClientThread(clientSocket);
+                ClientThread c = new ClientThread(clientSocket, db_connection);
 
                 /* inicializa a thread */
                 c.start();
@@ -56,10 +56,11 @@ class ClientThread extends Thread {
     DataInputStream in;
     DataOutputStream out;
     Socket clientSocket;
-
-    public ClientThread(Socket clientSocket) {
+    Connection db_connection;
+    public ClientThread(Socket clientSocket, Connection db_connection) {
         try {
             this.clientSocket = clientSocket;
+            this.db_connection = db_connection;
             in = new DataInputStream(clientSocket.getInputStream());
             out = new DataOutputStream(clientSocket.getOutputStream());
         } catch (IOException ioe) {
@@ -75,7 +76,7 @@ class ClientThread extends Thread {
             Integer requestType = 0;
             String messageSize;
             byte[] buffer = "empty".getBytes();
-
+            Charset UTF8_CHARSET = Charset.forName("UTF-8");
             try {
                 protocolMessage = in.readLine();
                 // System.out.println(protocolMessage);
@@ -99,9 +100,10 @@ class ClientThread extends Thread {
                 
                 /* realiza o unmarshalling */
                 String decode = new String(buffer, UTF8_CHARSET);
+                Gson gson = new Gson();
 
                 /* Faz a conversão de Json para Req */
-                Requester request = new Request() //gson.fromJson(decode, Request.class);
+                Request request = gson.fromJson(decode, Request.class);
 
                 String request_code = request.get_request_code();
 
@@ -112,25 +114,25 @@ class ClientThread extends Thread {
                 /* Chama a funcionalidade de acordo com o opCode */
                 switch (request_code) {
                     case "addgrade":
-                        Controller.addNotaForJson(request, response, db_connection);
+                        Controller.add_grade_for_json(request, response, db_connection);
                         break;
 
                     case "removegrade":
-                        Controller.rmNotaForJson(request, response, db_connection);
+                        Controller.remmove_grade_for_json(request, response, db_connection);
                         break;
 
                     case "liststudents":
-                        Controller.listAlunosForJson(request, response, db_connection);
+                        Controller.list_students_for_json(request, response, db_connection);
                         break;
 
                     default:
-                        response.setRetorno("Invalid option!");
+                        response.set_response("Invalid option!");
                         break;
                 }
 
 
                 /* Formata a resposta para Json */
-                // String msg = gson.toJson(res);
+                String msg = gson.toJson(response);
 
                 /*  Codifica a mensagem para UTF8 */
                 byte [] msgEncode = msg.getBytes("UTF8");
