@@ -116,15 +116,15 @@ class ClientThread extends Thread {
                         break;
 
                     case "removegrade":
-                        Functionalities.rmNotaForJson(request, response, db_connection);
+                        Controller.rmNotaForJson(request, response, db_connection);
                         break;
 
                     case "liststudents":
-                        Functionalities.listAlunosForJson(request, response, db_connection);
+                        Controller.listAlunosForJson(request, response, db_connection);
                         break;
 
                     default:
-                        res.setRetorno("Invalid option!");
+                        response.setRetorno("Invalid option!");
                         break;
                 }
 
