@@ -96,6 +96,53 @@ class ClientThread extends Thread {
                 int sizeBuffer = Integer.valueOf(messageSize);
                 buffer = new byte[sizeBuffer];
                 in.read(buffer);
+                
+                /* realiza o unmarshalling */
+                String decode = new String(buffer, UTF8_CHARSET);
+
+                /* Faz a conversão de Json para Req */
+                Requester request = new Request() //gson.fromJson(decode, Request.class);
+
+                String request_code = request.get_request_code();
+
+                /* Instancia a resposta */
+                Response response = new Response();
+
+
+                /* Chama a funcionalidade de acordo com o opCode */
+                switch (request_code) {
+                    case "addgrade":
+                        Controller.addNotaForJson(request, response, db_connection);
+                        break;
+
+                    case "removegrade":
+                        Functionalities.rmNotaForJson(request, response, db_connection);
+                        break;
+
+                    case "liststudents":
+                        Functionalities.listAlunosForJson(request, response, db_connection);
+                        break;
+
+                    default:
+                        res.setRetorno("Invalid option!");
+                        break;
+                }
+
+
+                /* Formata a resposta para Json */
+                // String msg = gson.toJson(res);
+
+                /*  Codifica a mensagem para UTF8 */
+                byte [] msgEncode = msg.getBytes("UTF8");
+        
+                /* Manda tamanho da resposta */
+                String msgSize = String.valueOf(msgEncode.length) + " \n";
+                byte[] size = msgSize.getBytes();
+                out.write(size);
+        
+                /* Manda resposta */
+                out.write(msgEncode);
+
             } catch (IOException e) {
                 //TODO: handle exception
             }
