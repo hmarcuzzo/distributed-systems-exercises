@@ -38,7 +38,7 @@ public class Controller {
       }
 
       /* search for disiplina */
-      resultSet = statement.executeQuery();
+      resultSet = statement.executeQuery(search_discipline_query);
       if(!resultSet.isBeforeFirst()){
         response.set_response("Disciplina inexistente");
         return "Disciplina inexistente";
