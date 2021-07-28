@@ -69,6 +69,7 @@ public class Controller {
     String discipline_code = request.get_discipline_code();
     int year = request.get_year();
     int semester = request.get_semester();
+    float nota = request.get_grade();
     String search_student_query = "SELECT * FROM aluno WHERE (ra = " + String.valueOf(RA) + ");";
     String search_discipline_query = "SELECT * FROM disciplina WHERE (codigo = '" + String.valueOf(discipline_code) + "');";
     String search_matricula_query = "SELECT * FROM matricula WHERE (ra_aluno = " + String.valueOf(RA) + " AND cod_disciplina = '" + String.valueOf(discipline_code) + "' AND year = "+ String.valueOf(year) +" AND semester = "+ String.valueOf(semester) +");";
@@ -122,7 +123,7 @@ public class Controller {
       Statement statement = db_connection.createStatement();
 
       /* search for disiplina */
-      ResultSet resultSet = statement.executeQuery(search_discipline_query);
+      ResultSet resultSet = statement.executeQuery("SELECT * FROM disciplina WHERE (codigo = '" + String.valueOf(discipline_code) + "');"));
       if(!resultSet.isBeforeFirst()){
         response.set_response("Disciplina inexistente");
         return "Disciplina inexistente";
@@ -130,7 +131,7 @@ public class Controller {
 
 
       /* Lista students */
-      resultSet = statement.executeQuery();
+      resultSet = statement.executeQuery("SELECT * FROM aluno, matricula WHERE (select ra_aluno FROM matricula WHERE ano = " + String.valueOf(year) + " AND semestre = " + String.valueOf(semester) + " AND cod_disciplina = '" + String.valueOf(discipline_code) + "') AND matricula.ra_aluno = aluno.ra;");
       if(!resultSet.isBeforeFirst()){
         response.set_response("Nesta disciplina nao há alunos matriculados em " + String.valueOf(year) + "/" + String.valueOf(semester));
         return ("Nesta disciplina nao há alunos matriculados em " + String.valueOf(year) + "/" + String.valueOf(semester));
