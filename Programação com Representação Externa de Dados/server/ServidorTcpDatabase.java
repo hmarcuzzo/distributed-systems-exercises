@@ -30,13 +30,14 @@ public class ServidorTcpDatabase {
     static Connection db_connection;
    
     public static void main(String args[]) {
-        db_connection = SQLiteConnection.connect();
         try {
             // Conexao com banco de dados
-
+            db_connection = SQLiteConnection.connect();
             int serverPort = 7000; 
+            // listen port
             ServerSocket listenSocket = new ServerSocket(serverPort);
-            while (true) {    
+            while (true) {
+                // socket accept
                 Socket clientSocket = listenSocket.accept();
                 
                 /* cria um thread para atender a conexao */
@@ -57,6 +58,8 @@ class ClientThread extends Thread {
     DataOutputStream out;
     Socket clientSocket;
     Connection db_connection;
+
+    /* constructor*/
     public ClientThread(Socket clientSocket, Connection db_connection) {
         try {
             this.clientSocket = clientSocket;
@@ -72,20 +75,23 @@ class ClientThread extends Thread {
     @Override
     public void run() {
         while (true) {
+
             String protocolMessage = "protobuf";
             Integer requestType = 0;
             String messageSize;
             byte[] buffer = "empty".getBytes();
             Charset UTF8_CHARSET = Charset.forName("UTF-8");
+
+
             try {
-                protocolMessage = in.readLine();
+                protocolMessage = in.readLine(); // json or protobuf
                 // System.out.println(protocolMessage);
             } catch (IOException e) {
                 //TODO: handle exception
             }
             
             try {
-                String type = in.readLine();
+                String type = in.readLine(); // método escolhido
                 System.out.println(type);
                 requestType = Integer.parseInt(type);
                 // System.out.println(requestType);
@@ -104,7 +110,7 @@ class ClientThread extends Thread {
                 String decode = new String(buffer, UTF8_CHARSET);
                 Gson gson = new Gson();
 
-                /* Faz a conversão de Json para Req */
+                /* Faz a conversão de Json para a classe Request */
                 Request request = gson.fromJson(decode, Request.class);
                 
                 String request_code;
