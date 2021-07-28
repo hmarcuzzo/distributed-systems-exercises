@@ -113,12 +113,12 @@ class ClientThread extends Thread {
 
                 /* Chama a funcionalidade de acordo com o opCode */
                 switch (request_code) {
-                    case "addgrade":
-                        Controller.add_grade_for_json(request, response, db_connection);
+                    case "addnota":
+                        Controller.add_nota_for_json(request, response, db_connection);
                         break;
 
-                    case "removegrade":
-                        Controller.remmove_grade_for_json(request, response, db_connection);
+                    case "removenota":
+                        Controller.remmove_nota_for_json(request, response, db_connection);
                         break;
 
                     case "liststudents":

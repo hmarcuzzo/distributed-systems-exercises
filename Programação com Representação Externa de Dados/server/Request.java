@@ -11,11 +11,11 @@
 public class Request {
     private String request_code;
     private Integer RA;
-    private Integer grade;
-    private String discipline_code;
-    private String name;
-    private Integer year;
-    private Integer semester;
+    private Integer nota;
+    private String cod_disciplina;
+    private String nome;
+    private Integer ano;
+    private Integer semestre;
 
     public String get_request_code() {
         return request_code;
@@ -33,44 +33,44 @@ public class Request {
         this.RA = RA;
     }
 
-    public String get_name() {
-        return name;
+    public String get_nome() {
+        return nome;
     }
 
-    public void set_name(String name) {
-        this.name = name;
+    public void set_nome(String nome) {
+        this.nome = nome;
     }
 
-    public Integer get_semester() {
-        return semester;
+    public Integer get_semestre() {
+        return semestre;
     }
 
-    public void set_semester(Integer semester) {
-        this.semester = semester;
+    public void set_semestre(Integer semestre) {
+        this.semestre = semestre;
     }
 
-    public Integer get_grade() {
-        return grade;
+    public Integer get_nota() {
+        return nota;
     }
 
-    public void set_grade(Integer grade) {
-        this.grade = grade;
+    public void set_nota(Integer nota) {
+        this.nota = nota;
     }
 
-    public Integer get_year() {
-        return year;
+    public Integer get_ano() {
+        return ano;
     }
 
-    public void set_year(Integer year) {
-        this.year = year;
+    public void set_ano(Integer ano) {
+        this.ano = ano;
     }
 
-    public String get_discipline_code() {
-        return discipline_code;
+    public String get_cod_disciplina() {
+        return cod_disciplina;
     }
 
-    public void set_discipline_code(String discipline_code) {
-        this.discipline_code = discipline_code;
+    public void set_cod_disciplina(String cod_disciplina) {
+        this.cod_disciplina = cod_disciplina;
     }
 
 }
