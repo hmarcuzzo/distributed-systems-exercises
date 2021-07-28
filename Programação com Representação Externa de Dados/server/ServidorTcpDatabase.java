@@ -134,7 +134,7 @@ class ClientThread extends Thread {
                         break;
 
                     case "liststudents":
-                        Controller.list_students_for_json(request, response, db_connection);
+                        Controller.list_alunos_for_json(request, response, db_connection);
                         break;
 
                     default:

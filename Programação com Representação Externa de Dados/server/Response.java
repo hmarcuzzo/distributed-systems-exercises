@@ -12,13 +12,13 @@ import java.util.ArrayList;
 
 public class Response {
   String response;
-  ArrayList<Student> students = new ArrayList<Student>();
+  ArrayList<Aluno> alunos = new ArrayList<Aluno>();
 
   public void set_response(String response) {
     this.response = response;
   }
 
-  public void set_students(Student aluno) {
-    this.students.add(aluno);
+  public void set_alunos(Aluno aluno) {
+    this.alunos.add(aluno);
   }
 }
