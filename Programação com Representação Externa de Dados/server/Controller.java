@@ -22,8 +22,8 @@ public class Controller {
     int ano = request.get_ano();
     int semestre = request.get_semestre();
     float nota = request.get_nota();
-
-    String search_student_query = "SELECT * FROM aluno WHERE (ra = " + String.valueOf(RA) + ");";
+    /* GET QUERYS */
+    String search_aluno_query = "SELECT * FROM aluno WHERE (ra = " + String.valueOf(RA) + ");";
     String search_discipline_query = "SELECT * FROM disciplina WHERE (codigo = '" + String.valueOf(cod_disciplina) + "');";
     String search_matricula_query = "SELECT * FROM matricula WHERE (ra_aluno = " + String.valueOf(RA) + " AND cod_disciplina = '" + String.valueOf(cod_disciplina) + "' AND ano = "+ String.valueOf(ano) +" AND semestre = "+ String.valueOf(semestre) +");";
     String update_nota_query = "UPDATE matricula SET nota = " + String.valueOf(nota) + " WHERE (ra_aluno = " + String.valueOf(RA) + " AND cod_disciplina = '" + String.valueOf(cod_disciplina) + "' AND ano = "+ String.valueOf(ano) +" AND semestre = "+ String.valueOf(semestre) +");";
@@ -32,59 +32,8 @@ public class Controller {
 
       Statement statement = db_connection.createStatement();
 
-      /* search for student */
-      
-      ResultSet resultSet = statement.executeQuery(search_student_query);
-      if(!resultSet.isBeforeFirst()){
-        response.set_response("RA inexistente");
-        return "RA inexistente";
-      }
-
-      /* search for disiplina */
-      resultSet = statement.executeQuery(search_discipline_query);
-      if(!resultSet.isBeforeFirst()){
-        response.set_response("Disciplina inexistente");
-        return "Disciplina inexistente";
-      }
-
-      /* search for matricula */
-      resultSet = statement.executeQuery(search_matricula_query);
-      if(!resultSet.isBeforeFirst()){
-        response.set_response("Matricula do student em " + String.valueOf(ano) + "/" + String.valueOf(semestre) + " inexistente");
-        return ("Matricula do student em " + String.valueOf(ano) + "/" + String.valueOf(semestre) + " inexistente");
-      }
-
-      /* Atualiza nota */
-      statement.execute(update_nota_query);
-      response.set_response("1");
-      
-
-    } catch (SQLException e) {
-      response.set_response(String.valueOf(e.getMessage()));
-      return String.valueOf(e.getMessage());
-    }
-    return "1";
-  }
-
-  public static String remmove_nota_for_json(Request request, Response response, Connection db_connection) {
-    /* Obtendo os dados para a busca e insercao */
-    int RA = request.get_RA();
-    String cod_disciplina = request.get_cod_disciplina();
-    int ano = request.get_ano();
-    int semestre = request.get_semestre();
-    float nota = request.get_nota();
-    String search_student_query = "SELECT * FROM aluno WHERE (ra = " + String.valueOf(RA) + ");";
-    String search_discipline_query = "SELECT * FROM disciplina WHERE (codigo = '" + String.valueOf(cod_disciplina) + "');";
-    String search_matricula_query = "SELECT * FROM matricula WHERE (ra_aluno = " + String.valueOf(RA) + " AND cod_disciplina = '" + String.valueOf(cod_disciplina) + "' AND ano = "+ String.valueOf(ano) +" AND semestre = "+ String.valueOf(semestre) +");";
-    String update_nota_query = "UPDATE matricula SET nota = " + String.valueOf(nota) + " WHERE (ra_aluno = " + String.valueOf(RA) + " AND cod_disciplina = '" + String.valueOf(cod_disciplina) + "' AND ano = "+ String.valueOf(ano) +" AND semestre = "+ String.valueOf(semestre) +");";
-    String remove_nota_query = "UPDATE matricula SET nota = '' WHERE (ra_aluno = " + String.valueOf(RA) + " AND cod_disciplina = '" + String.valueOf(cod_disciplina) + "' AND ano = "+ String.valueOf(ano) +" AND semestre = "+ String.valueOf(semestre) +");";
-   
-    try {
-
-      Statement statement = db_connection.createStatement();
-
-      /* search for student */
-      ResultSet resultSet = statement.executeQuery(search_student_query);
+      /* search for aluno */
+      ResultSet resultSet = statement.executeQuery(search_aluno_query);
       if(!resultSet.isBeforeFirst()){
         response.set_response("RA inexistente");
         return "RA inexistente";
@@ -101,7 +50,60 @@ public class Controller {
       resultSet = statement.executeQuery(search_matricula_query);
       if(!resultSet.isBeforeFirst()){
         response.set_response("Matricula do aluno em " + String.valueOf(ano) + "/" + String.valueOf(semestre) + " inexistente");
-        return ("Matricula do student em " + String.valueOf(ano) + "/" + String.valueOf(semestre) + " inexistente");
+        return ("Matricula do aluno em " + String.valueOf(ano) + "/" + String.valueOf(semestre) + " inexistente");
+      }
+
+      /* Atualiza nota */
+      statement.execute(update_nota_query);
+      response.set_response("1");
+      
+
+    } catch (SQLException e) {
+      response.set_response(String.valueOf(e.getMessage()));
+      return String.valueOf(e.getMessage());
+    }
+
+    /* GET SUCCESS */
+    return "1";
+  }
+
+  public static String remmove_nota_for_json(Request request, Response response, Connection db_connection) {
+    /* GET DATA */
+    int RA = request.get_RA();
+    String cod_disciplina = request.get_cod_disciplina();
+    int ano = request.get_ano();
+    int semestre = request.get_semestre();
+    float nota = request.get_nota();
+    /* GET QUERYS */
+    String search_aluno_query = "SELECT * FROM aluno WHERE (ra = " + String.valueOf(RA) + ");";
+    String search_discipline_query = "SELECT * FROM disciplina WHERE (codigo = '" + String.valueOf(cod_disciplina) + "');";
+    String search_matricula_query = "SELECT * FROM matricula WHERE (ra_aluno = " + String.valueOf(RA) + " AND cod_disciplina = '" + String.valueOf(cod_disciplina) + "' AND ano = "+ String.valueOf(ano) +" AND semestre = "+ String.valueOf(semestre) +");";
+    String update_nota_query = "UPDATE matricula SET nota = " + String.valueOf(nota) + " WHERE (ra_aluno = " + String.valueOf(RA) + " AND cod_disciplina = '" + String.valueOf(cod_disciplina) + "' AND ano = "+ String.valueOf(ano) +" AND semestre = "+ String.valueOf(semestre) +");";
+    String remove_nota_query = "UPDATE matricula SET nota = '' WHERE (ra_aluno = " + String.valueOf(RA) + " AND cod_disciplina = '" + String.valueOf(cod_disciplina) + "' AND ano = "+ String.valueOf(ano) +" AND semestre = "+ String.valueOf(semestre) +");";
+   
+    try {
+
+      Statement statement = db_connection.createStatement();
+
+      /* search for aluno */
+      ResultSet resultSet = statement.executeQuery(search_aluno_query);
+      if(!resultSet.isBeforeFirst()){
+        response.set_response("RA inexistente");
+        return "RA inexistente";
+      }
+
+      /* search for disiplina */
+      resultSet = statement.executeQuery(search_discipline_query);
+      if(!resultSet.isBeforeFirst()){
+        response.set_response("Disciplina inexistente");
+        return "Disciplina inexistente";
+      }
+
+      /* search for matricula */
+      resultSet = statement.executeQuery(search_matricula_query);
+      if(!resultSet.isBeforeFirst()){
+        response.set_response("Matricula do aluno em " + String.valueOf(ano) + "/" + String.valueOf(semestre) + " inexistente");
+        return ("Matricula do aluno em " + String.valueOf(ano) + "/" + String.valueOf(semestre) + " inexistente");
       }
 
       /* remove nota */
@@ -115,26 +117,27 @@ public class Controller {
     return "1";
   }
 
-  public static String list_students_for_json(Request request, Response response, Connection db_connection) {
-    /* Obtendo os dados para a busca */
+  public static String list_alunos_for_json(Request request, Response response, Connection db_connection) {
+    /* GET DATA */
     String cod_disciplina = request.get_cod_disciplina();
     int ano = request.get_ano();
     int semestre = request.get_semestre();
-
+    String disciplina_query = "SELECT * FROM disciplina WHERE (codigo = '" + String.valueOf(cod_disciplina) + "');";
+    String get_alunos_query = "SELECT * FROM aluno, matricula WHERE (select ra_aluno FROM matricula WHERE ano = " + String.valueOf(ano) + " AND semestre = " + String.valueOf(semestre) + " AND cod_disciplina = '" + String.valueOf(cod_disciplina) + "') AND matricula.ra_aluno = aluno.ra;";
     try {
 
       Statement statement = db_connection.createStatement();
 
       /* search for disiplina */
-      ResultSet resultSet = statement.executeQuery("SELECT * FROM disciplina WHERE (codigo = '" + String.valueOf(cod_disciplina) + "');");
+      ResultSet resultSet = statement.executeQuery(disciplina_query);
       if(!resultSet.isBeforeFirst()){
         response.set_response("Disciplina inexistente");
         return "Disciplina inexistente";
       }
 
 
-      /* Lista students */
-      resultSet = statement.executeQuery("SELECT * FROM aluno, matricula WHERE (select ra_aluno FROM matricula WHERE ano = " + String.valueOf(ano) + " AND semestre = " + String.valueOf(semestre) + " AND cod_disciplina = '" + String.valueOf(cod_disciplina) + "') AND matricula.ra_aluno = aluno.ra;");
+      /* Lista alunos */
+      resultSet = statement.executeQuery(get_alunos_query);
       if(!resultSet.isBeforeFirst()){
         response.set_response("Nesta disciplina nao há alunos matriculados em " + String.valueOf(ano) + "/" + String.valueOf(semestre));
         return ("Nesta disciplina nao há alunos matriculados em " + String.valueOf(ano) + "/" + String.valueOf(semestre));
@@ -142,18 +145,18 @@ public class Controller {
 
       while (resultSet.next()) {
 
-        /* Construindo Student */
-        Student student = new Student();
+        /* Construindo Aluno */
+        Aluno aluno = new Aluno();
         
-        /* Adicionando valoresponse no student */
-        student.set_RA(resultSet.getInt("ra"));
-        student.set_nome(resultSet.getString("nome"));
-        student.set_period(resultSet.getInt("periodo"));
-        student.set_nota(resultSet.getFloat("nota"));
-        student.set_absences(resultSet.getInt("faltas"));
+        /* Adicionando valoresponse no aluno */
+        aluno.set_RA(resultSet.getInt("ra"));
+        aluno.set_nome(resultSet.getString("nome"));
+        aluno.set_period(resultSet.getInt("periodo"));
+        aluno.set_nota(resultSet.getFloat("nota"));
+        aluno.set_absences(resultSet.getInt("faltas"));
 
-        /* Adicionando student */
-        response.set_students(student);
+        /* Adicionando aluno */
+        response.set_alunos(aluno);
       }
   
       response.set_response("1");
