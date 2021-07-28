@@ -6,7 +6,7 @@
  *  TODO: Declarar o protocolo
  *
  * @author Henrique Marcuzzo (@hmarcuzzo)
- * @author Rafael Soratto (@soratoorafa)
+ * @author Rafael Soratto (@sorattorafa)
  * 
  * Data de Criação: 25 de Jul de 2021
  * Ultima alteração: 25 de Jul de 2021

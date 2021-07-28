@@ -14,19 +14,19 @@ public class Student {
     private float grade;
     private Integer absences;
   
-    public String get_name() {
+    public String get_nome() {
       return name;
     }
   
-    public void set_name(String name) {
+    public void set_nome(String name) {
       this.name = name;
     }
 
-    public float get_grade() {
+    public float get_nota() {
       return grade;
     }
   
-    public void set_grade(float grade) {
+    public void set_nota(float grade) {
       this.grade = grade;
     }
 

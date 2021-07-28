@@ -151,7 +151,7 @@ def generate_json_message(data):
     """Este método irá gerar os dados para serem enviados no formato JSON.
 
     :param data: (list) Lista com os dados para gerar a string.
-    :return (byte[]) Mensagem em bytes a ser enviada no formato Protocol Buffer.
+    :return (byte[]) Mensagem em bytes a ser enviada no formato JSON.
     """
     json_data = {
         'RA': data[0],
@@ -168,7 +168,7 @@ def generate_json_message(data):
 def send_request(client_socket, request_type, message):
     """Este método irá enviar a mensagem para o servidor.
 
-    :param client_socket: Socket TCP para o destino que o cliente deve enviar a mensagem.
+    :param client_socket: (socket) Socket TCP para o destino que o cliente deve enviar a mensagem.
     :param request_type: (int) Tipo da mensagem Inserção, Remoção, Consultar, Sair.
     :param message: (byte[]) Mensagem em um array de bytes para ser enviado.
     """
@@ -222,10 +222,15 @@ if __name__ == '__main__':
             message = generate_json_message(data)
 
         message_size = len(message)
+        print(message)
 
         # Protocolo de envio da mensagem
         send_request(client_socket, request_type, message)
 
-        # TODO: Protocolo de resposta do servidor
+        response_message_len = client_socket.recv(1024)
+        response_message = client_socket.recv(1024)
+
+        print(f'{response_message_len}, {response_message}')
+
 
     client_socket.close()

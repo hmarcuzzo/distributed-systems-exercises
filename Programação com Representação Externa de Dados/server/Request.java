@@ -1,12 +1,14 @@
 /**
- * Este código é responsavel pela parte de criar uma classe genérica para
- * requisições Protocolo: TODO: Declarar o protocolo
+ * Este código é responsavel pela parte de criar uma classe genérica para requisições 
+ * 
+ * Protocolo: 
+ *  TODO: Declarar o protocolo
  *
  * @author Henrique Marcuzzo (@hmarcuzzo)
- * @author Rafael Soratto (@soratoorafa)
+ * @author Rafael Soratto (@sorattorafa)
  * 
- *         Data de Criação: 25 de Jul de 2021 Ultima alteração: 25 de Jul de
- *         2021
+ * Data de Criação: 25 de Jul de 2021 
+ * Ultima alteração: 25 de Jul de 2021
  */
 public class Request {
     private String request_code;

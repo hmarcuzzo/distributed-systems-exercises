@@ -6,7 +6,7 @@
  *  TODO: Declarar o protocolo
  *
  * @author Henrique Marcuzzo (@hmarcuzzo)
- * @author Rafael Soratto (@soratoorafa)
+ * @author Rafael Soratto (@sorattorafa)
  * 
  * Data de Criação: 25 de Jul de 2021
  * Ultima alteração: 25 de Jul de 2021
@@ -85,14 +85,16 @@ class ClientThread extends Thread {
             }
             
             try {
-                requestType = Integer.parseInt(in.readLine());
+                String type = in.readLine();
+                System.out.println(type);
+                requestType = Integer.parseInt(type);
                 // System.out.println(requestType);
             } catch (IOException e) {
                 //TODO: handle exception
             }
             
             try {
-                 /* Recebe a mensagem */
+                /* Recebe a mensagem */
                 messageSize = in.readLine();
                 int sizeBuffer = Integer.valueOf(messageSize);
                 buffer = new byte[sizeBuffer];
@@ -104,8 +106,18 @@ class ClientThread extends Thread {
 
                 /* Faz a conversão de Json para Req */
                 Request request = gson.fromJson(decode, Request.class);
+                
+                String request_code;
 
-                String request_code = request.get_request_code();
+                if (requestType == 1) {
+                    request_code = "addnota";
+                } else if (requestType == 2) {
+                    request_code = "removenota";
+                } else {
+                    request_code = "liststudents";
+                }
+                request.set_request_code(request_code);
+                // request_code = request.get_request_code();
 
                 /* Instancia a resposta */
                 Response response = new Response();
