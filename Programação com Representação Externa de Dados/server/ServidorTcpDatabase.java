@@ -100,8 +100,8 @@ class ClientThread extends Thread {
                 /* realiza o unmarshalling */
                 String decode = new String(buffer, UTF8_CHARSET);
 
-                /* Faz a conversão de Json para Req */
-                Requester request = new Request() //gson.fromJson(decode, Request.class);
+                /* Faz a conversão de Json para Request */
+                Requester request = gson.fromJson(decode, Request.class);
 
                 String request_code = request.get_request_code();
 
@@ -116,21 +116,21 @@ class ClientThread extends Thread {
                         break;
 
                     case "removegrade":
-                        Functionalities.rmNotaForJson(request, response, db_connection);
+                        Controller.rmNotaForJson(request, response, db_connection);
                         break;
 
                     case "liststudents":
-                        Functionalities.listAlunosForJson(request, response, db_connection);
+                        Controller.listAlunosForJson(request, response, db_connection);
                         break;
 
                     default:
-                        res.setRetorno("Invalid option!");
+                        response.setRetorno("Invalid option!");
                         break;
                 }
 
 
                 /* Formata a resposta para Json */
-                // String msg = gson.toJson(res);
+                String msg = gson.toJson(response);
 
                 /*  Codifica a mensagem para UTF8 */
                 byte [] msgEncode = msg.getBytes("UTF8");
