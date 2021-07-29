@@ -151,9 +151,9 @@ public class Controller {
         /* Adicionando valoresponse no aluno */
         aluno.set_RA(resultSet.getInt("ra"));
         aluno.set_nome(resultSet.getString("nome"));
-        aluno.set_period(resultSet.getInt("periodo"));
+        aluno.set_periodo(resultSet.getInt("periodo"));
         aluno.set_nota(resultSet.getFloat("nota"));
-        aluno.set_absences(resultSet.getInt("faltas"));
+        aluno.set_faltas(resultSet.getInt("faltas"));
 
         /* Adicionando aluno */
         response.set_alunos(aluno);
