@@ -18,7 +18,16 @@ public class Request {
     private String nome;
     private Integer ano;
     private Integer semestre;
+    private Integer faltas;
 
+
+    public Integer get_faltas() {
+        return faltas;
+    }
+
+    public void set_faltas(Integer faltas) {
+        this.faltas = faltas;
+    }
     public String get_request_code() {
         return request_code;
     }
