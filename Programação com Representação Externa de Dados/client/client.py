@@ -286,7 +286,7 @@ if __name__ == '__main__':
         else:
             response_message_len = client_socket.recv(1024)
             response_message = client_socket.recv(1024)
-            print(f'{response_message_len}, {response_message}')
+            # print(f'{response_message_len}, {response_message}')
             show_json_response(int(response_message_len), response_message, request_type)
 
     client_socket.close()

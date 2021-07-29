@@ -189,6 +189,7 @@ class ClientThread extends Thread {
                         Integer numAlunos = students.size();
                         out.write(numAlunos.toString().getBytes("UTF-8"));
 
+                        /* Envia os dados do aluno um por um */
                         for (Aluno aluno : students) {
                             Database.Matricula discipline = 
                                 Database.Matricula.newBuilder()
