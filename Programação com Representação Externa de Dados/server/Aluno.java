@@ -11,7 +11,7 @@ public class Aluno {
     private Integer RA;
     private String nome;
     private Integer periodo;
-    private float nota;
+    private Float nota;
     private Integer faltas;
   
     public String get_nome() {
@@ -22,11 +22,11 @@ public class Aluno {
       this.nome = nome;
     }
 
-    public float get_nota() {
+    public Float get_nota() {
       return nota;
     }
   
-    public void set_nota(float nota) {
+    public void set_nota(Float nota) {
       this.nota = nota;
     }
 
