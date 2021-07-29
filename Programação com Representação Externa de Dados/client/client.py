@@ -92,7 +92,7 @@ def get_insert_data():
     data.append(get_discipline_year())
     data.append(get_discipline_semester())
     data.append(get_student_grade())
-    data.append(-1)
+    data.append(get_student_absences())
 
     return data
 

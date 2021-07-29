@@ -29,7 +29,7 @@ public class Controller {
     String search_discipline_query = "SELECT * FROM disciplina WHERE (codigo = '" + String.valueOf(cod_disciplina) + "');";
     String search_matricula_query = "SELECT * FROM matricula WHERE (ra_aluno = " + String.valueOf(RA) + " AND cod_disciplina = '" + String.valueOf(cod_disciplina) + "' AND ano = "+ String.valueOf(ano) +" AND semestre = "+ String.valueOf(semestre) +");";
     String update_nota_query = "UPDATE matricula SET nota = " + String.valueOf(nota) + ", faltas = " + String.valueOf(faltas) + " WHERE (ra_aluno = " + String.valueOf(RA) + " AND cod_disciplina = '" + String.valueOf(cod_disciplina) + "' AND ano = "+ String.valueOf(ano) +" AND semestre = "+ String.valueOf(semestre) +");";
-    String create_matricula = "INSERTO INTO matricula (ra, cod_disciplina, ano, semestre, nota, faltas) VALUES (" + String.valueOf(RA) + ", " + String.valueOf(cod_disciplina) + ", " + String.valueOf(ano) + ", " + String.valueOf(semestre) + ", "+ String.valueOf(nota) +", "+ String.valueOf(faltas) +");";
+    String create_matricula = "INSERT INTO matricula (ra_aluno, cod_disciplina, ano, semestre, nota, faltas) VALUES (" + String.valueOf(RA) + ", " + String.valueOf(cod_disciplina) + ", " + String.valueOf(ano) + ", " + String.valueOf(semestre) + ", "+ String.valueOf(nota) +", "+ String.valueOf(faltas) +");";
     
     try {
 
