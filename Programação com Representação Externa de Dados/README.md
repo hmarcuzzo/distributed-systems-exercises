@@ -62,6 +62,9 @@ As seguintes bibliotecas foram usadas na construção do projeto:
 #### Java
 - [gson]()
 - [JSONObject]()
+- [SQLITE-JDBC]()
+- [json]()
+- [protobuf-java-3.17.3]
 
 Exemplos de Uso
 ==============
