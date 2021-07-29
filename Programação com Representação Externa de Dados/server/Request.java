@@ -13,7 +13,7 @@
 public class Request {
     private String request_code;
     private Integer RA;
-    private float nota;
+    private Float nota;
     private String cod_disciplina;
     private String nome;
     private Integer ano;
@@ -60,11 +60,11 @@ public class Request {
         this.semestre = semestre;
     }
 
-    public float get_nota() {
+    public Float get_nota() {
         return nota;
     }
 
-    public void set_nota(float nota) {
+    public void set_nota(Float nota) {
         this.nota = nota;
     }
 
