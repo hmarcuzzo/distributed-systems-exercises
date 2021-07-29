@@ -92,7 +92,6 @@ class ClientThread extends Thread {
             
             try {
                 String type = in.readLine(); // método escolhido
-                System.out.println(type);
                 requestType = Integer.parseInt(type);
                 // System.out.println(requestType);
             } catch (IOException e) {
@@ -174,21 +173,32 @@ class ClientThread extends Thread {
                         break;
                 }
 
+                if(protocolMessage.equals("protobuf")) {
+                    String respMsg = response.get_response();
 
-                /* Formata a resposta para Json */
-                String msg = gson.toJson(response);
+                    /*  Codifica a mensagem para UTF8 */
+                    byte [] respMsgEncode = respMsg.getBytes("UTF8");
+                    out.write(respMsgEncode);
 
-                /*  Codifica a mensagem para UTF8 */
-                byte [] msgEncode = msg.getBytes("UTF8");
-        
-                /* Manda tamanho da resposta */
-                String msgSize = String.valueOf(msgEncode.length) + " \n";
-                byte[] size = msgSize.getBytes();
-                out.write(size);
-                
-                System.out.println(msgEncode);
-                /* Manda resposta */
-                out.write(msgEncode);
+                    if (request_code.equals("liststudents")) {
+                        
+                    }
+
+                } else {
+                    /* Formata a resposta para Json */
+                    String msg = gson.toJson(response);
+    
+                    /*  Codifica a mensagem para UTF8 */
+                    byte [] msgEncode = msg.getBytes("UTF8");
+            
+                    /* Manda tamanho da resposta */
+                    String msgSize = String.valueOf(msgEncode.length) + " \n";
+                    byte[] size = msgSize.getBytes();
+                    out.write(size);
+                    
+                    /* Manda resposta */
+                    out.write(msgEncode);
+                }
 
             } catch (IOException e) {
                 //TODO: handle exception

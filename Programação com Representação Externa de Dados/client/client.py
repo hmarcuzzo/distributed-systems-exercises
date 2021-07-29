@@ -121,7 +121,7 @@ def get_consult_data():
     """
     data = []
 
-    data.append(get_student_RA())
+    data.append(0)
     data.append(get_discipline_code())
     data.append(get_discipline_year())
     data.append(get_discipline_semester())
@@ -180,6 +180,28 @@ def send_request(client_socket, request_type, message):
     client_socket.send((str(request_type) + '\n').encode())
     client_socket.send((str(len(message)) + '\n').encode())
     client_socket.send(message)
+
+
+def show_protobuf_response(msg_len, message, request_type):
+    """Este método irá mostrar a mensagem recebida no formato JSON.
+
+    :param msg_len: (int) Tamanho da mensagem recebida.
+    :param message: (byte[]) Mensagem recebida em um array de bytes.
+    :request_type: (int) Tipo de requisição que o cliente fez para o tratamento da resposta.
+    """
+    print('SERVIDOR:')
+    if (data['response'] == '1'):
+        if request_type == 1 or request_type == 2:
+            print('--\nRequisição feita com sucesso!\n--')
+        elif request_type == 3:
+            for student in data['alunos']:
+                print(f'--\nRA: {student["RA"]}')
+                print(f'Nome: {student["nome"]}')
+                print(f'Período: {student["periodo"]}')
+                print(f'Nota: {student["nota"]}')
+                print(f'Faltas: {student["faltas"]}\n--')
+    else:
+        print('---\n' + data['response'] + '\n---')
 
 
 def show_json_response(msg_len, message, request_type):
@@ -252,13 +274,12 @@ if __name__ == '__main__':
         # Protocolo de envio da mensagem
         send_request(client_socket, request_type, message)
 
-        response_message_len = client_socket.recv(1024)
-        response_message = client_socket.recv(1024)
-
-        print(f'{response_message_len}, {response_message}')
         if PROTOCOL_MESSAGE == 'protobuf':
             pass
         else:
+            response_message_len = client_socket.recv(1024)
+            response_message = client_socket.recv(1024)
+            print(f'{response_message_len}, {response_message}')
             show_json_response(int(response_message_len), response_message, request_type)
 
     client_socket.close()

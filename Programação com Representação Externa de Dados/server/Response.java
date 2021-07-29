@@ -18,7 +18,15 @@ public class Response {
     this.response = response;
   }
 
+  public String get_response() {
+    return this.response;
+  }
+
   public void set_alunos(Aluno aluno) {
     this.alunos.add(aluno);
+  }
+
+  public ArrayList<Aluno> get_alunos() {
+    return this.alunos;
   }
 }
