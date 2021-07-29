@@ -182,24 +182,31 @@ def send_request(client_socket, request_type, message):
     client_socket.send(message)
 
 
-def show_protobuf_response(msg_len, message, request_type):
-    """Este método irá mostrar a mensagem recebida no formato JSON.
+def show_protobuf_response(response, request_type, client_socket):
+    """Este método irá mostrar a mensagem recebida no formato Protobuf.
 
-    :param msg_len: (int) Tamanho da mensagem recebida.
-    :param message: (byte[]) Mensagem recebida em um array de bytes.
-    :request_type: (int) Tipo de requisição que o cliente fez para o tratamento da resposta.
+    :param response: (byte []) Resposta do servidor em array de bytes.
+    :param request_type: (int) Tipo de requisição que o cliente fez para o tratamento da resposta.
+    :param client_socket: (socket) Socket TCP que o client espera receber as mensagens do servidor.
     """
     print('SERVIDOR:')
-    if (data['response'] == '1'):
+    if (response.decode('utf-8') == '1'):
         if request_type == 1 or request_type == 2:
             print('--\nRequisição feita com sucesso!\n--')
         elif request_type == 3:
-            for student in data['alunos']:
-                print(f'--\nRA: {student["RA"]}')
-                print(f'Nome: {student["nome"]}')
-                print(f'Período: {student["periodo"]}')
-                print(f'Nota: {student["nota"]}')
-                print(f'Faltas: {student["faltas"]}\n--')
+            num_students = int(client_socket.recv(1024).decode('utf-8'))
+
+            for i in range(num_students):
+                matricula = database_pb2.Matricula()
+                # aluno = database_pb2.Aluno()
+
+                matricula.ParseFromString(client_socket.recv(1024))
+                # aluno.ParseFromString(client_socket.recv(1024))
+                print(f'--\nRA: {matricula.RA}')
+                # print(f'Nome: {student["nome"]}')
+                # print(f'Período: {student["periodo"]}')
+                print(f'Nota: {matricula.nota}')
+                print(f'Faltas: {matricula.faltas}\n--')
     else:
         print('---\n' + data['response'] + '\n---')
 
@@ -275,7 +282,7 @@ if __name__ == '__main__':
         send_request(client_socket, request_type, message)
 
         if PROTOCOL_MESSAGE == 'protobuf':
-            pass
+            show_protobuf_response(client_socket.recv(1024), request_type, client_socket)
         else:
             response_message_len = client_socket.recv(1024)
             response_message = client_socket.recv(1024)

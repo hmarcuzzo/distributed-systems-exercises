@@ -23,6 +23,7 @@ import com.google.gson.*;
 import java.net.*;
 import java.io.*;
 import java.sql.*;
+import java.util.ArrayList;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
@@ -176,11 +177,29 @@ class ClientThread extends Thread {
                 if(protocolMessage.equals("protobuf")) {
                     String respMsg = response.get_response();
 
-                    /*  Codifica a mensagem para UTF8 */
+                    /*  Envia a resposta da requisição (se deu certo ou não) */
                     byte [] respMsgEncode = respMsg.getBytes("UTF8");
                     out.write(respMsgEncode);
 
                     if (request_code.equals("liststudents")) {
+                        /* Pega todos os alunos */
+                        ArrayList<Aluno> students = response.get_alunos();
+
+                        /* Envia a quantidade de alunos para resposta */
+                        Integer numAlunos = students.size();
+                        out.write(numAlunos.toString().getBytes("UTF-8"));
+
+                        for (Aluno aluno : students) {
+                            Database.Matricula discipline = 
+                                Database.Matricula.newBuilder()
+                                    .setRA(aluno.get_RA())
+                                    .setNota(aluno.get_nota())
+                                    .setFaltas(aluno.get_faltas())
+                                .build();
+
+                                out.write(discipline.toByteArray());
+                        }
+                        
                         
                     }
 
