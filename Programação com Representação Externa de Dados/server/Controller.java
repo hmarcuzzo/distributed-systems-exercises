@@ -37,8 +37,8 @@ public class Controller {
         + String.valueOf(cod_disciplina) + "' AND ano = " + String.valueOf(ano) + " AND semestre = "
         + String.valueOf(semestre) + ");";
     String create_matricula = "INSERT INTO matricula (ra_aluno, cod_disciplina, ano, semestre, nota, faltas) VALUES ("
-        + String.valueOf(RA) + ", " + String.valueOf(cod_disciplina) + ", " + String.valueOf(ano) + ", "
-        + String.valueOf(semestre) + ", " + String.valueOf(nota) + ", " + String.valueOf(faltas) + ");";
+        + String.valueOf(RA) + "," + String.valueOf(cod_disciplina) + "," + String.valueOf(ano) + ","
+        + String.valueOf(semestre) + "," + String.valueOf(nota) + "," + String.valueOf(faltas) + ");";
 
     try {
 
@@ -75,9 +75,8 @@ public class Controller {
       } else {
         /* Atualiza nota */
         statement.execute(update_nota_query);
+        response.set_response("1");
       }
-
-      response.set_response("1");
 
     } catch (SQLException e) {
       response.set_response(String.valueOf(e.getMessage()));
