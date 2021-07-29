@@ -20,6 +20,8 @@ import socket
 import database_pb2
 import jsonpickle
 
+from ast import literal_eval
+
 # VARIÁVEIS GLOBAIS
 PROTOCOL_MESSAGE = 'protobuf'
 
@@ -90,7 +92,7 @@ def get_insert_data():
     data.append(get_discipline_year())
     data.append(get_discipline_semester())
     data.append(get_student_grade())
-    data.append(get_student_absences())
+    data.append(-1)
 
     return data
 
@@ -180,6 +182,30 @@ def send_request(client_socket, request_type, message):
     client_socket.send(message)
 
 
+def show_json_response(msg_len, message, request_type):
+    """Este método irá mostrar a mensagem recebida no formato JSON.
+
+    :param msg_len: (int) Tamanho da mensagem recebida.
+    :param message: (byte[]) Mensagem recebida em um array de bytes.
+    :request_type: (int) Tipo de requisição que o cliente fez para o tratamento da resposta.
+    """
+    data = literal_eval(message.decode('utf8'))
+    # print(data)
+    print('SERVIDOR:')
+    if (data['response'] == '1'):
+        if request_type == 1 or request_type == 2:
+            print('--\nRequisição feita com sucesso!\n--')
+        elif request_type == 3:
+            for student in data['alunos']:
+                print(f'--\nRA: {student["RA"]}')
+                print(f'Nome: {student["nome"]}')
+                print(f'Período: {student["periodo"]}')
+                print(f'Nota: {student["nota"]}')
+                print(f'Faltas: {student["faltas"]}\n--')
+    else:
+        print('---\n' + data['response'] + '\n---')
+
+
 if __name__ == '__main__':
     selected_protocol = input('Digite o tipo de protocolo desejado - "protobuf" (1) ou "json" (2): ')
     # Se o usuário digital algo diferente de "json" o protocolo padrão de comunicação será o "protobuf"
@@ -207,7 +233,7 @@ if __name__ == '__main__':
             break
 
         # Pegar os dados necessários e trata-los de acordo com o tipo de requisição.
-        print('\n--')
+        print('\nCLIENTE:\n--')
         if request_type == 1:
             data = get_insert_data()
         elif request_type == 2:
@@ -222,7 +248,6 @@ if __name__ == '__main__':
             message = generate_json_message(data)
 
         message_size = len(message)
-        print(message)
 
         # Protocolo de envio da mensagem
         send_request(client_socket, request_type, message)
@@ -231,6 +256,9 @@ if __name__ == '__main__':
         response_message = client_socket.recv(1024)
 
         print(f'{response_message_len}, {response_message}')
-
+        if PROTOCOL_MESSAGE == 'protobuf':
+            pass
+        else:
+            show_json_response(int(response_message_len), response_message, request_type)
 
     client_socket.close()

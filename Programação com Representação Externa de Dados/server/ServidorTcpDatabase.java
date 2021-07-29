@@ -98,29 +98,55 @@ class ClientThread extends Thread {
             } catch (IOException e) {
                 //TODO: handle exception
             }
-            
+
+            if (requestType == 0) break;
+
             try {
                 /* Recebe a mensagem */
                 messageSize = in.readLine();
                 int sizeBuffer = Integer.valueOf(messageSize);
                 buffer = new byte[sizeBuffer];
                 in.read(buffer);
+                String decode;
+
+                if(protocolMessage.equals("protobuf")) {
+                    // /* realiza o unmarshalling */
+                    Database.Matricula discipline = Database.Matricula.parseFrom(buffer);
+                    JSONObject jsonData = new JSONObject();
+
+                    jsonData.put("RA", discipline.getRA());
+                    jsonData.put("cod_disciplina", discipline.getCodDisciplina()); 
+                    jsonData.put("ano", discipline.getAno()); 
+                    jsonData.put("semestre", discipline.getSemestre()); 
+                    jsonData.put("nota", discipline.getNota());
+                    jsonData.put("faltas", discipline.getFaltas());
+                    
+                    decode = jsonData.toString();
+                } else {
+                    /* realiza o unmarshalling */
+                    decode = new String(buffer, UTF8_CHARSET);
+                }
                 
-                /* realiza o unmarshalling */
-                String decode = new String(buffer, UTF8_CHARSET);
                 Gson gson = new Gson();
 
                 /* Faz a conversão de Json para a classe Request */
                 Request request = gson.fromJson(decode, Request.class);
                 
                 String request_code;
+                
+                switch (requestType) {
+                    case 1:
+                        request_code = "addnota";
+                        break;
 
-                if (requestType == 1) {
-                    request_code = "addnota";
-                } else if (requestType == 2) {
-                    request_code = "removenota";
-                } else {
-                    request_code = "liststudents";
+                    case 2:
+                        request_code = "removenota";
+                        break;
+
+                    default:
+                        request_code = "liststudents";
+                        break;
+
                 }
                 request.set_request_code(request_code);
                 // request_code = request.get_request_code();
@@ -159,15 +185,14 @@ class ClientThread extends Thread {
                 String msgSize = String.valueOf(msgEncode.length) + " \n";
                 byte[] size = msgSize.getBytes();
                 out.write(size);
-        
+                
+                System.out.println(msgEncode);
                 /* Manda resposta */
                 out.write(msgEncode);
 
             } catch (IOException e) {
                 //TODO: handle exception
             }
-
-            if (requestType == 0) break;
             
             if(protocolMessage.equals("protobuf")) {
                 try {
