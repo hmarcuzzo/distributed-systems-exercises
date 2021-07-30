@@ -208,7 +208,7 @@ def show_protobuf_response(response, request_type, client_socket):
                 print(f'Nota: {matricula.nota}')
                 print(f'Faltas: {matricula.faltas}\n--')
     else:
-        print('---\n' + data['response'] + '\n---')
+        print('---\n' + response.decode('utf-8') + '\n---')
 
 
 def show_json_response(msg_len, message, request_type):

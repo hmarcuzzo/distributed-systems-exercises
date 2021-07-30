@@ -36,9 +36,8 @@ public class Controller {
         + String.valueOf(faltas) + " WHERE (ra_aluno = " + String.valueOf(RA) + " AND cod_disciplina = '"
         + String.valueOf(cod_disciplina) + "' AND ano = " + String.valueOf(ano) + " AND semestre = "
         + String.valueOf(semestre) + ");";
-    String create_matricula = "INSERT INTO matricula (ra_aluno, cod_disciplina, ano, semestre, nota, faltas) VALUES ("
-        + String.valueOf(RA) + "," + String.valueOf(cod_disciplina) + "," + String.valueOf(ano) + ","
-        + String.valueOf(semestre) + "," + String.valueOf(nota) + "," + String.valueOf(faltas) + ");";
+    String create_matricula = "INSERT INTO matricula (ano, semestre, cod_disciplina, ra_aluno, nota, faltas) VALUES ("
+      + ano + ", " + semestre + ", '" + cod_disciplina + "', " + RA + ", " + nota + ", " + faltas + ");"; 
 
     try {
 
@@ -62,7 +61,7 @@ public class Controller {
       resultSet = statement.executeQuery(search_matricula_query);
 
       if (!resultSet.isBeforeFirst()) {
-
+        System.out.println(create_matricula);
         ResultSet resultSet2 = statement.executeQuery(create_matricula);
 
         if (!resultSet2.isBeforeFirst()) {

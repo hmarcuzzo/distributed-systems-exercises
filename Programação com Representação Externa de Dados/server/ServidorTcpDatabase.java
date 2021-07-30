@@ -200,8 +200,6 @@ class ClientThread extends Thread {
 
                                 out.write(discipline.toByteArray());
                         }
-                        
-                        
                     }
 
                 } else {
