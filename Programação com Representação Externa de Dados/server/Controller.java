@@ -14,6 +14,7 @@
 
 import java.sql.*;
 
+
 public class Controller {
 
   public static String add_nota_for_json(Request request, Response response, Connection db_connection) {
@@ -61,16 +62,15 @@ public class Controller {
       resultSet = statement.executeQuery(search_matricula_query);
 
       if (!resultSet.isBeforeFirst()) {
-        System.out.println(create_matricula);
-        ResultSet resultSet2 = statement.executeQuery(create_matricula);
-
+        // System.out.println(create_matricula);
+        statement.execute(create_matricula);
+        /* search for disiplina */
+        ResultSet resultSet2 = statement.executeQuery(search_discipline_query);
         if (!resultSet2.isBeforeFirst()) {
-          response.set_response(
-              "Matricula do aluno em " + String.valueOf(ano) + "/" + String.valueOf(semestre) + " inexistente");
-          return ("Matricula do aluno em " + String.valueOf(ano) + "/" + String.valueOf(semestre) + " inexistente");
-        } else {
-          response.set_response("1");
+          response.set_response("Disciplina inexistente");
+          return "Disciplina inexistente";
         }
+        response.set_response("1");
       } else {
         /* Atualiza nota */
         statement.execute(update_nota_query);
