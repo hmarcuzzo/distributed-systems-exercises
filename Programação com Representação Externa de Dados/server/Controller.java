@@ -147,9 +147,7 @@ public class Controller {
     int ano = request.get_ano();
     int semestre = request.get_semestre();
     String disciplina_query = "SELECT * FROM disciplina WHERE (codigo = '" + String.valueOf(cod_disciplina) + "');";
-    String get_alunos_query = "SELECT * FROM aluno, matricula WHERE (select ra_aluno FROM matricula WHERE ano = "
-        + String.valueOf(ano) + " AND semestre = " + String.valueOf(semestre) + " AND cod_disciplina = '"
-        + String.valueOf(cod_disciplina) + "') AND matricula.ra_aluno = aluno.ra;";
+    String get_alunos_query = "SELECT *  FROM aluno as A JOIN matricula AS M ON A.RA = M.ra_aluno WHERE (M.ano = " + String.valueOf(ano) + " AND M.semestre = " + String.valueOf(semestre) + " AND M.cod_disciplina = '" + String.valueOf(cod_disciplina) + "');";
     try {
 
       Statement statement = db_connection.createStatement();
