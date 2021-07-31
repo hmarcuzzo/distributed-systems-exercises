@@ -205,7 +205,7 @@ def show_protobuf_response(response, request_type, client_socket):
                 print(f'--\nRA: {matricula.RA}')
                 # print(f'Nome: {student["nome"]}')
                 # print(f'Período: {student["periodo"]}')
-                print(f'Nota: {matricula.nota}')
+                print(f'Nota: {round(matricula.nota, 2)}')
                 print(f'Faltas: {matricula.faltas}\n--')
     else:
         print('---\n' + response.decode('utf-8') + '\n---')
