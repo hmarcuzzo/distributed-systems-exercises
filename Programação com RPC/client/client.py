@@ -17,13 +17,12 @@ Ultima alteração: 28 de Jul de 2021
 
 
 import socket
+import grpc
 import database_pb2
+import database_pb2_grpc
 import jsonpickle
 
 from ast import literal_eval
-
-# VARIÁVEIS GLOBAIS
-PROTOCOL_MESSAGE = 'protobuf'
 
  
 def get_student_RA():
@@ -131,124 +130,66 @@ def get_consult_data():
     return data
 
 
-def generate_protobuf_message(data):
-    """Este método irá gerar os dados para serem enviados no formato Protocol Buffer.
+def generate_gRPC_message(data, request_type):
+    """Este método irá gerar os dados para serem enviados no formato gRPC.
 
     :param data: (list) Lista com os dados para gerar a string.
-    :return (byte[]) Mensagem em bytes a ser enviada no formato Protocol Buffer.
+    :param request_type: (str) Tipo de requisição.
+    :return (database_pb2.Request) Objeto database_pb2.Request.
     """
-    registration = database_pb2.Matricula()
+    type_request = ''
+    if request_type == 1:
+        type_request = 'addnota'
+    elif request_type == 2:
+        type_request = 'removenota'
+    else:
+        type_request = 'liststudents'
 
-    registration.RA = data[0]
-    registration.cod_disciplina = data[1]
-    registration.ano = data[2]
-    registration.semestre = data[3]
-    registration.nota = data[4]
-    registration.faltas = data[5]
-
-    return registration.SerializeToString()
+    return database_pb2.Request(opCode=type_request, RA=data[0], cod_disciplina=data[1], 
+        ano=data[2], semestre=data[3], nota=data[4], faltas=data[5])
 
 
-def generate_json_message(data):
-    """Este método irá gerar os dados para serem enviados no formato JSON.
+def send_gRPC_message(stub, message):
+    """Este método irá enviar os dados para o servidor.
 
-    :param data: (list) Lista com os dados para gerar a string.
-    :return (byte[]) Mensagem em bytes a ser enviada no formato JSON.
+    :param stub: (database_pb2_grpc.DatabaseStub) Stub.
+    :param message: (database_pb2.Request) Objeto database_pb2.Request.
+    :return (database_pb2.Response) Objeto database_pb2.Response.
     """
-    json_data = {
-        'RA': data[0],
-        'cod_disciplina': data[1],
-        'ano': data[2],
-        'semestre': data[3],
-        'nota': data[4],
-        'faltas': data[5]
-    }
-
-    return jsonpickle.encode(json_data).encode()
+    
+    return stub.Comunication(message)
 
 
-def send_request(client_socket, request_type, message):
-    """Este método irá enviar a mensagem para o servidor.
+def show_response(response, request_type):
+    """Este método irá imprimir na tela a resposta.
 
-    :param client_socket: (socket) Socket TCP para o destino que o cliente deve enviar a mensagem.
-    :param request_type: (int) Tipo da mensagem Inserção, Remoção, Consultar, Sair.
-    :param message: (byte[]) Mensagem em um array de bytes para ser enviado.
+    :param response: (database_pb2.Response) Objeto database_pb2.Response.
+    :param request_type: (int) Tipo de requisição.
     """
-    global PROTOCOL_MESSAGE
 
-    client_socket.send((PROTOCOL_MESSAGE + '\n').encode())
-    client_socket.send((str(request_type) + '\n').encode())
-    client_socket.send((str(len(message)) + '\n').encode())
-    client_socket.send(message)
-
-
-def show_protobuf_response(response, request_type, client_socket):
-    """Este método irá mostrar a mensagem recebida no formato Protobuf.
-
-    :param response: (byte []) Resposta do servidor em array de bytes.
-    :param request_type: (int) Tipo de requisição que o cliente fez para o tratamento da resposta.
-    :param client_socket: (socket) Socket TCP que o client espera receber as mensagens do servidor.
-    """
     print('SERVIDOR:')
-    if (response.decode('utf-8') == '1'):
+    if (response.response == '1'):
         if request_type == 1 or request_type == 2:
             print('--\nRequisição feita com sucesso!\n--')
         elif request_type == 3:
-            num_students = int(client_socket.recv(1024).decode('utf-8'))
-
-            for i in range(num_students):
-                matricula = database_pb2.Matricula()
-                # aluno = database_pb2.Aluno()
-
-                matricula.ParseFromString(client_socket.recv(1024))
-                # aluno.ParseFromString(client_socket.recv(1024))
+            for matricula in response.matriculas:
                 print(f'--\nRA: {matricula.RA}')
-                # print(f'Nome: {student["nome"]}')
-                # print(f'Período: {student["periodo"]}')
+                print(f'Código: {matricula.cod_disciplina}')
+                print(f'Ano: {matricula.ano}')
+                print(f'Semestre: {matricula.semestre}')
                 print(f'Nota: {round(matricula.nota, 2)}')
                 print(f'Faltas: {matricula.faltas}\n--')
     else:
-        print('---\n' + response.decode('utf-8') + '\n---')
-
-
-def show_json_response(msg_len, message, request_type):
-    """Este método irá mostrar a mensagem recebida no formato JSON.
-
-    :param msg_len: (int) Tamanho da mensagem recebida.
-    :param message: (byte[]) Mensagem recebida em um array de bytes.
-    :request_type: (int) Tipo de requisição que o cliente fez para o tratamento da resposta.
-    """
-    data = literal_eval(message.decode('utf8'))
-    # print(data)
-    print('SERVIDOR:')
-    if (data['response'] == '1'):
-        if request_type == 1 or request_type == 2:
-            print('--\nRequisição feita com sucesso!\n--')
-        elif request_type == 3:
-            for student in data['alunos']:
-                print(f'--\nRA: {student["RA"]}')
-                print(f'Nome: {student["nome"]}')
-                print(f'Período: {student["periodo"]}')
-                print(f'Nota: {student["nota"]}')
-                print(f'Faltas: {student["faltas"]}\n--')
-    else:
-        print('---\n' + data['response'] + '\n---')
-
+        print('---\n' + response.response + '\n---')
+    
 
 if __name__ == '__main__':
-    selected_protocol = input('Digite o tipo de protocolo desejado - "protobuf" (1) ou "json" (2): ')
-    # Se o usuário digital algo diferente de "json" o protocolo padrão de comunicação será o "protobuf"
-    if selected_protocol == 'json' or int(selected_protocol) == 2:
-        PROTOCOL_MESSAGE = 'json'
-
-    # Criando o socket TCP/IP
-    client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-
     # Conecta o socket a porta onde o servidor está escutando
-    server_address = ['localhost', 7000]
+    server_address = ['localhost', 7777]
     # server_address[0] = input('IP adress: ')
     # server_address[1] = int(input('Port: '))
-    client_socket.connect(tuple(server_address))
+    #configura o canal de comunicacao
+    channel = grpc.insecure_channel(f'{server_address[0]}:{server_address[1]}')
 
     # Loop principal onde irá ocorrer a troca de mensagens entre o cliente e o servidor.
     while True:
@@ -256,10 +197,6 @@ if __name__ == '__main__':
         while request_type > 4 or request_type < 0:
             print("Não conheço este tipo de requisição.\n")
             request_type = int(input('Deseja fazer a Inserção (1), Remoção (2), Consultar (3) ou Sair (0): '))
-
-        if request_type == 0:
-            send_request(client_socket, request_type, "".encode())
-            break
 
         # Pegar os dados necessários e trata-los de acordo com o tipo de requisição.
         print('\nCLIENTE:\n--')
@@ -271,22 +208,14 @@ if __name__ == '__main__':
             data = get_consult_data()
         print('--\n')
 
-        if PROTOCOL_MESSAGE == 'protobuf':
-            message = generate_protobuf_message(data)
-        else:
-            message = generate_json_message(data)
+        #inicializa e configura o stub
+        stub = database_pb2_grpc.RequestMiddlewareStub(channel)
 
-        message_size = len(message)
+        message = generate_gRPC_message(data, request_type)
 
-        # Protocolo de envio da mensagem
-        send_request(client_socket, request_type, message)
+        response = send_gRPC_message(stub, message)
 
-        if PROTOCOL_MESSAGE == 'protobuf':
-            show_protobuf_response(client_socket.recv(1024), request_type, client_socket)
-        else:
-            response_message_len = client_socket.recv(1024)
-            response_message = client_socket.recv(1024)
-            # print(f'{response_message_len}, {response_message}')
-            show_json_response(int(response_message_len), response_message, request_type)
+        show_response(response, request_type)
 
-    client_socket.close()
+        if request_type == 0:
+            break
