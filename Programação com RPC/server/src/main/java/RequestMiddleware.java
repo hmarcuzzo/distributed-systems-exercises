@@ -28,6 +28,15 @@ public class RequestMiddleware extends  RequestMiddlewareGrpc.RequestMiddlewareI
             case "addnota":
                 Controller.add_nota_for_json(request, response, db_connection);
             break;
+
+            case "removenota":
+                Controller.remmove_nota_for_json(request, response, db_connection);
+            break;
+
+            case "liststudents":
+                Controller.list_alunos_for_json(request, response, db_connection);
+            break;
+
             case "loggout":
                 System.out.println("Conexão perdida");
                 response.setResponse("404 - Client not found!");
