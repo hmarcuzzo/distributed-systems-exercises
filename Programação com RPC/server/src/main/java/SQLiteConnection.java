@@ -20,7 +20,7 @@ public class SQLiteConnection{
   public static Connection connect() {    
     try {
       connection = DriverManager.getConnection( "jdbc:sqlite:../database/gerenciamento_notas.db");
-      System.out.println("BD connection success!");
+      // System.out.println("BD connection success!");
 
     } catch (SQLException e) {
       System.out.println(e.getMessage());
