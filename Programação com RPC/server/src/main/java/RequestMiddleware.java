@@ -1,5 +1,6 @@
 /**
- *
+ * 
+ * Rafael Rampim Soratto
 
  */
 
@@ -10,49 +11,33 @@ import java.io.*;
 import java.sql.*;
 
 
-public class RequestMiddleware {
-    // static Connection dbConnection;
+public class RequestMiddleware extends  RequestMiddlewareGrpc.RequestMiddlewareImplBase {
+    static Connection db_connection;
     
-    // @Override
-    // public void mensagem(Requisicao req, StreamObserver<Resposta> responseObserver) {
-    //     // Conexao com banco de dados
-    //     dbConnection = SQLiteJDBCDriverConnection.connect();
+    @Override
+    public void comunication(Request request, StreamObserver<Response> responseObserver) {
+        //     DB CONNECTION
+        db_connection = SQLiteConnection.connect();
+            
+        System.out.println("Recebido: " + request.getOpCode());
+        //     /* Instancia a resposta */
+        Response.Builder response = Response.newBuilder();
         
-    //     System.out.println("Recebido: " + req.getOpCode());
-    //     /* Instancia a resposta */
-    //     Resposta.Builder res = Resposta.newBuilder();
-    
-    //         /* Chama a funcionalidade de acordo com o opCode */
-    //         switch(req.getOpCode()){
-    //           case "insertNota":
-    //             Functionalities.insertNota(req, res, dbConnection);
-    //           break;
+        // /* Chama a funcionalidade de acordo com o opCode */
+        switch(request.getOpCode()){
+            case "addnota":
+                Controller.add_nota_for_json(request, response, db_connection);
+            break;
+            case "loggout":
+                System.out.println("Conexão perdida");
+                response.setResponse("404 - Client not found!");
+            break;
 
-    //           case "selectNota":
-    //             Functionalities.selectNota(req, res, dbConnection);
-    //           break;
-              
-    //           case "rmNota":
-    //             Functionalities.rmNota(req, res, dbConnection);
-    //           break;
-
-    //           case "updateNota":
-    //             Functionalities.updateNota(req, res, dbConnection);
-    //           break;
-              
-    //           case "selectNotasFaltas":
-    //             Functionalities.selectNotasFaltas(req, res, dbConnection);
-    //           break;
-
-    //           case "listAlunos":
-    //             Functionalities.listAlunos(req, res, dbConnection);
-    //           break;
-    
-    //           default:
-    //             res.setMessage("opCode invalido!");
-    //           break;
-    //         }
-    //     responseObserver.onNext(res.build());
-    //     responseObserver.onCompleted();
-    // }
+            default:
+                response.setResponse("404 - Route not found: invalid opCode!");
+            break;
+        }
+        responseObserver.onNext(response.build());
+        responseObserver.onCompleted();
+    }
 }

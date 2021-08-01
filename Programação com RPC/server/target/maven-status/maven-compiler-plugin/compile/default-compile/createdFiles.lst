@@ -16,12 +16,12 @@ ResponseOrBuilder.class
 AlunoOrBuilder.class
 Request$1.class
 RequestMiddlewareGrpc$RequestMiddlewareBlockingStub.class
-Response$Builder.class
 RequestMiddlewareGrpc$RequestMiddlewareFutureStub.class
+Response$Builder.class
 Matricula.class
 Aluno$1.class
-Matricula$1.class
 SQLiteConnection.class
+Matricula$1.class
 RequestOrBuilder.class
 Server.class
 RequestMiddlewareGrpc$RequestMiddlewareStub.class

@@ -19,7 +19,7 @@ public class Server {
     public static void main(String[] args) {
         io.grpc.Server server = ServerBuilder
                 .forPort(7777)
-                // .addService(new RequestMiddleware())
+                .addService(new RequestMiddleware())
                 .build();
         
         
