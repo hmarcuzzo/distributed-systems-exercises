@@ -1,9 +1,14 @@
 /**
+ * Este código é responsável pela parte de criar uma classe genérica para requisições
  * 
- * Rafael Rampim Soratto
-
+ * Protocolo: RPC
+ *
+ * @author Henrique Marcuzzo (@hmarcuzzo)
+ * @author Rafael Soratto (@sorattorafa)
+ * 
+ * Data de Criação: 01 de Agosto de 2021 
+ * Ultima alteração: 01 de Agosto de 2021
  */
-
 
 import io.grpc.stub.StreamObserver;
 import java.net.*;
@@ -16,14 +21,16 @@ public class RequestMiddleware extends  RequestMiddlewareGrpc.RequestMiddlewareI
     
     @Override
     public void comunication(Request request, StreamObserver<Response> responseObserver) {
-        //     DB CONNECTION
+        
+        // create BD  connection
         db_connection = SQLiteConnection.connect();
-            
+        
+        // get op code
         System.out.println("Recebido: " + request.getOpCode());
-        //     /* Instancia a resposta */
+    
         Response.Builder response = Response.newBuilder();
         
-        // /* Chama a funcionalidade de acordo com o opCode */
+        // Calls controller with  opCode */
         switch(request.getOpCode()){
             case "addnota":
                 Controller.add_nota_for_json(request, response, db_connection);
@@ -46,6 +53,7 @@ public class RequestMiddleware extends  RequestMiddlewareGrpc.RequestMiddlewareI
                 response.setResponse("404 - Route not found: invalid opCode!");
             break;
         }
+        // set next reponse build completed
         responseObserver.onNext(response.build());
         responseObserver.onCompleted();
     }

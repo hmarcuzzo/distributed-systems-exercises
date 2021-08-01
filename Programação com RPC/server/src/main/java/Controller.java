@@ -1,21 +1,24 @@
-
 /**
- * Este código é responseponsavel pela parte de criar uma classe genérica para requestuisições 
- * 
- * Protocolo: 
- *  TODO: Declarar o protocolo
+ * Este código é responsável pela parte de criar uma classe
+ * que recebe requisições, faz um processamento no banco e
+ * retorna uma resposta
+ * Protocolo: RPC
  *
  * @author Henrique Marcuzzo (@hmarcuzzo)
  * @author Rafael Soratto (@sorattorafa)
  * 
- * Data de Criação: 25 de Jul de 2021 
- * Ultima alteração: 25 de Jul de 2021
+ * Data de Criação: 01 de Agosto de 2021 
+ * Ultima alteração: 01 de Agosto de 2021
  */
 
 import java.sql.*;
 
 
 public class Controller {
+
+  /*
+    Method to create and update grade of students
+  */
 
   public static String add_nota_for_json(Request request, Response.Builder response, Connection db_connection) {
     /* GET DATA */
@@ -62,7 +65,7 @@ public class Controller {
       resultSet = statement.executeQuery(search_matricula_query);
 
       if (!resultSet.isBeforeFirst()) {
-        // System.out.println(create_matricula);
+
         statement.execute(create_matricula);
         /* search for disiplina */
         ResultSet resultSet2 = statement.executeQuery(search_discipline_query);
@@ -87,6 +90,9 @@ public class Controller {
   }
 
 
+  /*
+    Method to delete grade of students
+  */
   public static String remmove_nota_for_json(Request request, Response.Builder response, Connection db_connection) {
     /* GET DATA */
     int RA = request.getRA();
@@ -144,6 +150,9 @@ public class Controller {
     return "1";
   }
 
+    /*
+    Method to list students of matricula
+  */
   public static String list_alunos_for_json(Request request, Response.Builder response, Connection db_connection) {
     /* GET DATA */
     String cod_disciplina = request.getCodDisciplina();
