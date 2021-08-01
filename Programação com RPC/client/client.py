@@ -1,28 +1,17 @@
 """Este código é responsavel pela parte do cliente e comunicação com o servidor, ele ira tratar o envio o dos dados
-em formato Protocol Buffer ou JSON, via socket TCP.
-
-Protocolo de envio:
-    1a Mensagem: Tipo de representação dos dados (protobuf ou json).
-    2a Mensagem: Tipo de requisição (inserção, deletar ou consultar).
-    3a Mensagem: Tamanho da mensagem.
-    4a Mensagem: Mensagem codificada com o tipo de protocolo escolhido.
+utilizando a ferramenta gRPC e o recebimento da mensagem no mesmo formato.
 
 Autores:
     @hmarcuzzo (Henrique Marcuzzo)
     @sorattorafa (Rafael Soratto)
 
-Data de Criação: 25 de Jul de 2021
-Ultima alteração: 28 de Jul de 2021
+Data de Criação: 1 de Ago de 2021
+Ultima alteração: 1 de Ago de 2021
 """
 
-
-import socket
 import grpc
 import database_pb2
 import database_pb2_grpc
-import jsonpickle
-
-from ast import literal_eval
 
  
 def get_student_RA():

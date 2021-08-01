@@ -8,6 +8,8 @@
  * 
  * Data de Criação: 01 de Agosto de 2021 
  * Ultima alteração: 01 de Agosto de 2021
+ * Rafael Rampim Soratto
+    
  */
 
 import io.grpc.stub.StreamObserver;
