@@ -1,5 +1,5 @@
-<h1 align="center">Programação com Representação externa dos dados</h1>
-<p href="#descricao" align="center">Exercícios avalativos de Sistemas Distribuidos utilizando Representação externa dos dados com Proto Buffer e JSON.</p>
+<h1 align="center">Programação com RPC</h1>
+<p href="#descricao" align="center">Exercícios avalativos de Sistemas Distribuidos utilizando O RPC.</p>
 
 <div align="center">
   <img alt="Java" src="https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=java&logoColor=white"/>
@@ -36,17 +36,19 @@ Executando o projeto
 ### Compilando
 ```bash
 # Na pasta do server execute:
-$ javac -cp ":lib/*": *.java
+$ mvn compile
 ```
 ### Executando
 ```bash
 # Na pasta do server execute:
-$ java -cp ":lib/*" ServidorTcpDatabase
+$ mvn exec:java -D "exec.mainClass="="Server"
 ```
 ## 🎲 Cliente
+
 ### Executando
 ```bash
 # Na pasta do cliente execute:
+$ pip3 install grpcio grpcio-tools protobuf
 $ python3 client.py
 ```
 
@@ -55,16 +57,16 @@ Bibliotecas Utilizadas
 
 As seguintes bibliotecas foram usadas na construção do projeto:
 #### Python
-- [jsonpickle]()
-- [literal_eval]()
-- [socket]()
+- [grpcio]()
+- [grpcio-tools]()
+- [protobuf]()
 
 #### Java
-- [gson]()
+
 - [JSONObject]()
 - [SQLITE-JDBC]()
-- [json]()
-- [protobuf-java-3.17.3]
+- [IO.GRPC]()
+
 
 Exemplos de Uso
 ==============
@@ -74,10 +76,6 @@ Nesta versão o cliente e servidor são capazes de executar a Inserção, Remoç
 Para isso basta selecionar uma opção no cliente e inserir todos os dados solicitados. 
 
 * Lembre-se sempre de inserir dados pré existentes no banco para os campos de ***RA*** e ***CÓDIGO***!
-
-Ver exemplo abaixo:
-
-![Exemplo do Cliente](img/exemplo_cliente.png)
 
 Autores
 =======
