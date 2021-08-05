@@ -41,7 +41,7 @@ $ mvn compile
 ### Executando
 ```bash
 # Na pasta do server execute:
-$ mvn exec:java -D "exec.mainClass="="Server"
+$ mvn exec:java -D"exec.mainClass"="Server"
 ```
 ## 🎲 Cliente
 
@@ -60,6 +60,7 @@ As seguintes bibliotecas foram usadas na construção do projeto:
 - [grpcio]()
 - [grpcio-tools]()
 - [protobuf]()
+- [jsonpickle]()
 
 #### Java
 
