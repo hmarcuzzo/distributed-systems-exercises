@@ -31,7 +31,7 @@ public class NotesManager extends UnicastRemoteObject implements Calculadora {
         return 1;
     } //multiplica
 
-    public list_notas (String disciplineCode, Integer disciplineYear, Integer disciplineSemester) throws RemoteException{
+    public int list_notas (String disciplineCode, Integer disciplineYear, Integer disciplineSemester) throws RemoteException{
         return 1;
     }
 

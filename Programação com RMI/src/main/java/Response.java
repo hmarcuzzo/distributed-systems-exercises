@@ -20,11 +20,14 @@ public class Response{
   Response(int response_status_code , JSONObject object){
     System.out.println("constructor with Two parameters");
   }
+  Response(int response_status_code){
+    System.out.println("constructor with one parameter");
+  }
    public static int get_status(){
-     return this.response_status_code;
+     return response_status_code;
    }
 
   public static int get_object(){
-     return this.object;
+     return object;
    }
 }

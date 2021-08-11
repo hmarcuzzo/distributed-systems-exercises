@@ -11,7 +11,7 @@ public class Servidor {
     public static void main(String args[]) {
        try {
             /* inicializa um objeto remoto */
-            NotesManagerRMI notesManager = new NotesManagerRMI();
+            NotesManager notesManager = new NotesManager();
 
             /* registra o objeto remoto no Binder */
             Registry registry = LocateRegistry.getRegistry("localhost");
