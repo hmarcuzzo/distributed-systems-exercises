@@ -17,7 +17,6 @@ public interface NotesManagerRMI extends Remote {
     public int add_nota (String RA, String disciplineCode, Integer disciplineYear, Integer disciplineSemester, Float grade, Integer absences) throws RemoteException;
     public int remmove_nota (String RA, String disciplineCode, Integer disciplineYear, Integer disciplineSemester) throws RemoteException;
     public int get_notas_by_aluno (String RA) throws RemoteException;
-
     public int list_alunos (String disciplineCode, Integer disciplineYear, Integer disciplineSemester) throws RemoteException;
     public int list_notas (String disciplineCode, Integer disciplineYear, Integer disciplineSemester) throws RemoteException;
 }
