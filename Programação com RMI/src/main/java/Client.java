@@ -12,26 +12,171 @@
 
 import java.rmi.registry.Registry;
 import java.rmi.registry.LocateRegistry;
+import java.util.Scanner;
 
 public class Client {
+    private static Integer getStudentRA() {
+        // Este método irá coletar o RA do aluno.
+
+        System.out.println("Digite o RA do aluno: ");
+        return Integer.parseInt(new Scanner(System.in).nextLine());
+    }
+
+    private static String getDisciplineCode() {
+        // Este método irá coletar o CÓDIGO da disciplina.
+
+        System.out.println("Digite o CÓDIGO da disciplina: ");
+        return new Scanner(System.in).nextLine();
+    }
+
+    private static Integer getDisciplineYear() {
+        // Este método irá coletar o ANO da disciplina.
+
+        System.out.println("Digite o ANO da disciplina: ");
+        return Integer.parseInt(new Scanner(System.in).nextLine());
+    }
+
+    private static Integer getDisciplineSemester() {
+        // Este método irá coletar o SEMESTRE da disciplina.
+
+        System.out.println("Digite o SEMESTRE da disciplina: ");
+        return Integer.parseInt(new Scanner(System.in).nextLine());
+    }
+
+    private static Float getStudentGrade() {
+        // Este método irá coletar a NOTA do aluno.
+
+        System.out.println("Digite a NOTA do aluno: ");
+        return Float.parseFloat(new Scanner(System.in).nextLine());
+    }
+
+    private static Integer getStudentAbsences() {
+        // Este método irá coletar o NÚMERO de faltas do aluno.
+
+        System.out.println("Digite o NÚMERO de faltas do aluno: ");
+        return Integer.parseInt(new Scanner(System.in).nextLine());
+    }
+
+    private static Object[] getInsertData() {
+        // Este método irá coletar os dados para inserir uma nova nota para o aluno.
+
+        Object[] data = new Object[6];
+
+        data[0] = getStudentRA();
+        data[1] = getDisciplineCode();
+        data[2] = getDisciplineYear();
+        data[3] = getDisciplineSemester();
+        data[4] = getStudentGrade();
+        data[5] = getStudentAbsences();
+
+        return data;
+    }
+
+    private static Object[] getDeleteData() {
+        // Este método irá coletar os dados para remover as notas do aluno de um determinando ano e semestre.
+
+        Object[] data = new Object[6];
+
+        data[0] = getStudentRA();
+        data[1] = getDisciplineCode();
+        data[2] = getDisciplineYear();
+        data[3] = getDisciplineSemester();
+        data[4] = -1.0f;
+        data[5] = -1;
+
+        return data;
+    }
+
+    private static Object[] getConsultStudent() {
+        // Este método irá coletar os dados para consultar as notas de um determinado aluno.
+
+        Object[] data = new Object[6];
+
+        data[0] = getStudentRA();
+        data[1] = "";
+        data[2] = -1;
+        data[3] = -1;
+        data[4] = -1.0f;
+        data[5] = -1;
+
+        return data;
+    }
+
+    private static Object[] getConsultDiscipline() {
+        // Este método irá coletar os dados para consultar as notas ou os alunos de uma disciplina em um determinando ano/semestre.
+
+
+        Object[] data = new Object[6];
+
+        data[0] = -1;
+        data[1] = getDisciplineCode();
+        data[2] = getDisciplineYear();
+        data[3] = getDisciplineSemester();
+        data[4] = -1.0f;
+        data[5] = -1;
+
+        return data;
+    }
+
+    private static void showResponse(Integer response, Integer requestType) {
+        // Este método irá mostrar a resposta do servidor.
+        System.out.println("SERVIDOR:");
+    }
+
     public static void main(String args[]) {
         try {
-           /* OPCIONAL: configurar e ativar o Security Manager */
-           System.setProperty("java.security.policy", "policy.txt");
-           System.setSecurityManager(new SecurityManager());
+            /* OPCIONAL: configurar e ativar o Security Manager */
+            System.setProperty("java.security.policy", "policy.txt");
+            System.setSecurityManager(new SecurityManager());
 
-           System.out.println ("Cliente iniciado ...");
+            System.out.println ("Cliente iniciado ...");
 
-           /* obtem a referencia para o objeto remoto */
-           Registry registry = LocateRegistry.getRegistry("localhost");
-           GerenciadorNotasRMI c = (GerenciadorNotasRMI)registry.lookup("ServicoCalculadora");
+            /* obtem a referencia para o objeto remoto */
+            Registry registry = LocateRegistry.getRegistry("localhost");
+            NotesManagerRMI nm = (NotesManagerRMI)registry.lookup("NoteManagerService");
+            
+            Integer requestType;
 
-           System.out.println("20+4=" + c.soma(20,4));
-           System.out.println("20-4=" + c.subtrai(20,4));
-           System.out.println("20*4=" + c.multiplica(20,4));
-           System.out.println("20/4=" + c.divide(20,4));
+            while (true) {
+                System.out.println("\nDeseja fazer a Inserção de Notas (1), Remoção de Notas (2), Consultar Notas (3), Consultar Notas em um ano/semestre (4), Consultar Alunos em um ano/semestre (5) ou Sair (0): ");
+                requestType = Integer.parseInt(new Scanner(System.in).nextLine());  
+                while (requestType > 5 || requestType < 0) {
+                    System.out.println("Não conheço este tipo de requisição.\n");
+                    System.out.println("\nDeseja fazer a Inserção de Notas (1), Remoção de Notas (2), Consultar Notas de um aluno (3), Consultar Notas em um ano/semestre (4), Consultar Alunos em um ano/semestre (5) ou Sair (0): ");
+                    requestType = Integer.parseInt(new Scanner(System.in).nextLine());
+                }
+                
+                Object[] data = new Object[6];
+                Integer response = 0;
+                System.out.println("\nCLIENTE:\n--");
+                if (requestType == 1) {
+                    data = getInsertData();
+                    response = nm.add_nota(data[0], data[1], data[2], data[3], data[4], data[5]);
+                } else if (requestType == 2) {
+                    data = getDeleteData();
+                    response = nm.remmove_nota(data[0], data[1], data[2], data[3]);
+                } else if (requestType == 3) {
+                    data = getConsultStudent();
+                    response = nm.get_notas_by_aluno(data[0]);
+                } else if (requestType == 4) {
+                    data = getConsultDiscipline();
+                    response = nm.list_alunos(data[1], data[2], data[3]);
+                } else if (requestType == 5) {
+                    data = getConsultDiscipline();
+                    response = nm.list_notas(data[1], data[2], data[3]);
+                } else {
+                    break;
+                }
+                System.out.println("--\n");
+
+                System.out.println(data[0] + " " + data[1] + " " + data[2] + " " + data[3] + " " + data[4] + " " + data[5]);
+
+                showResponse(response, requestType);
+
+            }
+
         } catch (Exception e) {
-           System.out.println(e);
+            System.out.println(e);
         }
     }
 }
