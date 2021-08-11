@@ -15,10 +15,10 @@ public class Servidor {
 
             /* registra o objeto remoto no Binder */
             Registry registry = LocateRegistry.getRegistry("localhost");
-            registry.rebind("ServicoCalculadora", notesManager);
+            registry.rebind("NotesManagerService", notesManager);
 
             /* aguardando invocacoes remotas */
-	        System.out.println("Servidor pronto ...");
+	        System.out.println("Server ready ...");
 	    } catch (Exception e) {
 	        System.out.println(e);
         } //catch

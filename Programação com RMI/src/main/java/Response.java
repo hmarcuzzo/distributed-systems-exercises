@@ -13,14 +13,14 @@
 
 import org.json.JSONObject;
 
-public class Response{
+public class Response {
   static int response_status_code;
   static JSONObject object;
 
-  Response(int response_status_code , JSONObject object){
+  public Response(int response_status_code , JSONObject object){
     System.out.println("constructor with Two parameters");
   }
-  Response(int response_status_code){
+  public Response(int response_status_code){
     System.out.println("constructor with one parameter");
   }
    public static int get_status(){
@@ -30,4 +30,8 @@ public class Response{
   public static int get_object(){
      return object;
    }
+
+  public Response get(){
+    return this;
+  }
 }
