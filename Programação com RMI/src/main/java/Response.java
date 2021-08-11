@@ -27,7 +27,7 @@ public class Response {
      return response_status_code;
    }
 
-  public static int get_object(){
+  public static JSONObject get_object(){
      return object;
    }
 

@@ -121,6 +121,15 @@ public class Client {
     private static void showResponse(Integer response, Integer requestType) {
         // Este método irá mostrar a resposta do servidor.
         System.out.println("SERVIDOR:");
+        if (response.get_status() == 1) { 
+            if (requestType == 1 || requestType == 2) { 
+                System.out.println("--\nRequisição feita com sucesso!\n--");
+            } else {
+
+            }
+        } else {
+            System.out.println("---\nA requisição solicitada falhou!\n---");
+        }
     }
 
     public static void main(String args[]) {
@@ -133,7 +142,7 @@ public class Client {
 
             /* obtem a referencia para o objeto remoto */
             Registry registry = LocateRegistry.getRegistry("localhost");
-            NotesManagerRMI nm = (NotesManagerRMI)registry.lookup("NoteManagerService");
+            NotesManagerRMI nm = (NotesManagerRMI)registry.lookup("NotesManagerService");
             
             Integer requestType;
 
@@ -147,7 +156,7 @@ public class Client {
                 }
                 
                 Object[] data = new Object[6];
-                Integer response = 0;
+                Response response = new Response();
                 System.out.println("\nCLIENTE:\n--");
                 if (requestType == 1) {
                     data = getInsertData();
