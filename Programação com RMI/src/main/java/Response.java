@@ -12,6 +12,8 @@
 
 public class Response {
   static int response_status_code;
+  static String error;
+  static String response_data;
 
   public Response(){
     System.out.println("constructor with no parameter");
