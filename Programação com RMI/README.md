@@ -39,6 +39,7 @@ $ javac -cp ":lib/*": *.java
 ### Executando
 ```bash
 # Na pasta do src/main/java execute:
+$ rmiregistry
 $ java -cp ":lib/*" Server
 ```
 ## 🎲 Cliente
