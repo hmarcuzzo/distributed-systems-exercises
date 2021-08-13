@@ -156,7 +156,7 @@ public class Client {
                 }
                 
                 Object[] data = new Object[6];
-                Response response = new Response();
+                Response response;
                 System.out.println("\nCLIENTE:\n--");
                 if (requestType == 1) {
                     data = getInsertData();
@@ -178,7 +178,7 @@ public class Client {
                 }
                 System.out.println("--\n");
 
-                System.out.println(data[0] + " " + data[1] + " " + data[2] + " " + data[3] + " " + data[4] + " " + data[5]);
+                // System.out.println(data[0] + " " + data[1] + " " + data[2] + " " + data[3] + " " + data[4] + " " + data[5]);
 
                 showResponse(response, requestType);
 

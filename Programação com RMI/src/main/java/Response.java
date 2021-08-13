@@ -10,7 +10,9 @@
  * Ultima alteração: 11 de Agosto de 2021
  */
 
-public class Response {
+import java.io.Serializable;
+
+public class Response implements Serializable {
   static int response_status_code;
   static String error;
   static String response_data;
@@ -22,9 +24,10 @@ public class Response {
   public Response(int response_status_code){
     System.out.println("constructor with one parameter");
   }
-   public static int get_status(){
-     return response_status_code;
-   }
+  
+  public static int get_status(){
+    return response_status_code;
+  }
 
   public Response get(){
     return this;

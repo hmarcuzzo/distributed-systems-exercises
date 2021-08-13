@@ -68,7 +68,7 @@ public class NotesManager extends UnicastRemoteObject implements NotesManagerRMI
             }
 
             Response resp = new Response(1);
-            return resp.get();
+            return resp;
 
         } catch (SQLException e) {
             Response resp = new Response(0);

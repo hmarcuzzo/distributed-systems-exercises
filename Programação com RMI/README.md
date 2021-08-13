@@ -1,5 +1,5 @@
-<h1 align="center">Programação com Representação externa dos dados</h1>
-<p href="#descricao" align="center">Exercícios avalativos de Sistemas Distribuidos utilizando Representação externa dos dados com Proto Buffer e JSON.</p>
+<h1 align="center">Programação com RMI</h1>
+<p href="#descricao" align="center">Exercícios avalativos de Sistemas Distribuidos utilizando RMI.</p>
 
 <div align="center">
   <img alt="Java" src="https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=java&logoColor=white"/>
@@ -25,8 +25,7 @@ Pre-requisitos
 ==============
 
 Antes de começar, vai precisar ter instalado na sua máquina as seguintes ferramentas:
-- [Java](https://www.oracle.com/br/java/technologies/javase-jdk11-downloads.html);
-- [Python](https://www.python.org/);
+- [Java](https://www.oracle.com/br/java/technologies/javase-jdk11-downloads.html)
 
 Executando o projeto
 ====================
@@ -34,41 +33,36 @@ Executando o projeto
 ## 🎲 Servidor
 ### Compilando
 ```bash
-# Na pasta do server execute:
+# Na pasta do src/main/java execute:
 $ javac -cp ":lib/*": *.java
 ```
 ### Executando
 ```bash
-# Na pasta do server execute:
-$ java -cp ":lib/*" ServidorTcpDatabase
+# Na pasta do src/main/java execute:
+$ java -cp ":lib/*" Server
 ```
 ## 🎲 Cliente
 ### Executando
 ```bash
-# Na pasta do cliente execute:
-$ python3 client.py
+# Na pasta do src/main/java execute:
+$ java -cp ":lib/*" Client
 ```
 
 Bibliotecas Utilizadas
 ==============
 
 As seguintes bibliotecas foram usadas na construção do projeto:
-#### Python
-- [jsonpickle]()
-- [literal_eval]()
-- [socket]()
-
 #### Java
-- [gson]()
-- [JSONObject]()
+- [Scanner]()
+- [Registry]()
+- [LocateRegistry]()
 - [SQLITE-JDBC]()
-- [json]()
-- [protobuf-java-3.17.3]
+- [Remote]()
 
 Exemplos de Uso
 ==============
 
-Nesta versão o cliente e servidor são capazes de executar a Inserção, Remoção e Consulta de dados na tabela de Matrícula.
+Nesta versão o cliente e servidor são capazes de executar a Inserção, Remoção e Consulta de dados na tabela de Matrícula e consultas em na tabela de Alunos.
 
 Para isso basta selecionar uma opção no cliente e inserir todos os dados solicitados. 
 
