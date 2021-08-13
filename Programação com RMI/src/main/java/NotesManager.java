@@ -8,7 +8,8 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.sql.*;
-
+import java.net.*;
+import java.io.*;
 public class NotesManager extends UnicastRemoteObject implements NotesManagerRMI {
 
     public NotesManager() throws RemoteException {
@@ -32,10 +33,10 @@ public class NotesManager extends UnicastRemoteObject implements NotesManagerRMI
         + disciplineYear + ", " + disciplineSemester + ", '" + disciplineCode + "', " + RA + ", " + grade + ", " + absences + ");"; 
 
 
-        Connection db_connection = SQLiteConnection.connect();    
-        Statement statement = db_connection.createStatement();
+        Connection db_connection = SQLiteConnection.connect(); 
         try {
-
+   
+            Statement statement = db_connection.createStatement();
 
             /* search for aluno */
             ResultSet resultSet = statement.executeQuery(search_aluno_query);
@@ -87,10 +88,9 @@ public class NotesManager extends UnicastRemoteObject implements NotesManagerRMI
             + " AND cod_disciplina = '" + String.valueOf(disciplineCode) + "' AND ano = " + String.valueOf(disciplineYear)
             + " AND semestre = " + String.valueOf(disciplineSemester) + ");";
 
-        Connection db_connection = SQLiteConnection.connect();    
-        Statement statement = db_connection.createStatement();
+        Connection db_connection = SQLiteConnection.connect();  
         try {
-    
+            Statement statement = db_connection.createStatement();
 
             /* search for aluno */
             ResultSet resultSet = statement.executeQuery(search_aluno_query);
@@ -121,7 +121,6 @@ public class NotesManager extends UnicastRemoteObject implements NotesManagerRMI
             return resp.get();
 
         } catch (SQLException e) {
-            statement.execute(remove_nota_query);
             Response resp = new Response(1);
         }
         Response resp = new Response(1);
@@ -140,9 +139,8 @@ public class NotesManager extends UnicastRemoteObject implements NotesManagerRMI
         String get_alunos_query = "SELECT *  FROM aluno as A JOIN matricula AS M ON A.RA = M.ra_aluno WHERE (M.ano = " + String.valueOf(disciplineYear) + " AND M.semestre = " + String.valueOf(disciplineSemester) + " AND M.cod_disciplina = '" + String.valueOf(disciplineCode) + "');";
         
         Connection db_connection = SQLiteConnection.connect(); 
-        Statement statement = db_connection.createStatement();
         try {
-
+            Statement statement = db_connection.createStatement();
             /* search for disiplina */
             ResultSet resultSet = statement.executeQuery(disciplina_query);
             if (!resultSet.isBeforeFirst()) {
