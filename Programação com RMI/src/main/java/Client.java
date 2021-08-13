@@ -163,16 +163,16 @@ public class Client {
                     response = nm.add_nota(Integer.parseInt(data[0].toString()), data[1].toString(), Integer.parseInt(data[2].toString()), Integer.parseInt(data[3].toString()), Float.parseFloat(data[4].toString()), Integer.parseInt(data[5].toString()));
                 } else if (requestType == 2) {
                     data = getDeleteData();
-                    // response = nm.remmove_nota(Integer.parseInt(data[0].toString()), data[1].toString(), Integer.parseInt(data[2].toString()), Integer.parseInt(data[3].toString()));
+                    response = nm.remove_nota(Integer.parseInt(data[0].toString()), data[1].toString(), Integer.parseInt(data[2].toString()), Integer.parseInt(data[3].toString()));
                 } else if (requestType == 3) {
                     data = getConsultStudent();
-                    // response = nm.get_notas_by_aluno(Integer.parseInt(data[0].toString()));
+                    response = nm.get_notas_by_aluno(Integer.parseInt(data[0].toString()));
                 } else if (requestType == 4) {
                     data = getConsultDiscipline();
-                    // response = nm.list_alunos(data[1].toString(), Integer.parseInt(data[2].toString()), Integer.parseInt(data[3].toString()));
+                    response = nm.list_alunos(data[1].toString(), Integer.parseInt(data[2].toString()), Integer.parseInt(data[3].toString()));
                 } else if (requestType == 5) {
                     data = getConsultDiscipline();
-                    // response = nm.list_notas(data[1].toString(), Integer.parseInt(data[2].toString()), Integer.parseInt(data[3].toString()));
+                    response = nm.list_notas(data[1].toString(), Integer.parseInt(data[2].toString()), Integer.parseInt(data[3].toString()));
                 } else {
                     break;
                 }
