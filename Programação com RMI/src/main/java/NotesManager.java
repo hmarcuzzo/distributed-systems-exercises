@@ -9,14 +9,14 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.sql.*;
 
-public class NotesManager extends UnicastRemoteObject implements Calculadora {
+public class NotesManager extends UnicastRemoteObject implements NotesManagerRMI {
 
     public NotesManager() throws RemoteException {
         super();
         System.out.println("Instance of Object created with success");
     } //Calc
 
-    public Response add_grade (String RA, String disciplineCode, Integer disciplineYear, Integer disciplineSemester, Float grade, Integer absences) throws RemoteException {
+    public Response add_grade(String RA, String disciplineCode, Integer disciplineYear, Integer disciplineSemester, Float grade, Integer absences) throws RemoteException {
 
         String search_aluno_query = "SELECT * FROM aluno WHERE (ra = " + String.valueOf(RA) + ");";
         String search_discipline_query = "SELECT * FROM disciplina WHERE (codigo = '" + String.valueOf(disciplineCode)
