@@ -121,15 +121,23 @@ public class Client {
     private static void showResponse(Response response, Integer requestType) {
         // Este método irá mostrar a resposta do servidor.
         System.out.println("SERVIDOR:");
+        System.out.println("--");
         if (response.get_status() == 1) { 
             if (requestType == 1 || requestType == 2) { 
-                System.out.println("--\nRequisição feita com sucesso!\n--");
+                System.out.println("Requisição feita com sucesso!");
             } else {
+                if (requestType == 3) {
 
+                } else if (requestType == 4) {
+
+                } else if (requestType == 5) {
+
+                }
             }
         } else {
-            System.out.println("---\n" + response.get_status() + "\n---");
+            System.out.println("A requisição falhou:\n\t" + response.get_error());
         }
+        System.out.println("--");
     }
 
     public static void main(String args[]) {

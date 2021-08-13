@@ -26,10 +26,18 @@ public class Response implements Serializable {
     System.out.println("constructor with one parameter");
   }
   
-  public int get_status(){
+  public int get_status() {
     return this.response_status_code;
   }
 
+  public String get_error() {
+    return this.error;
+  }
+
+  public void set_error(String error) {
+    this.error = error;
+  }
+    
   public Response get(){
     return this;
   }
