@@ -118,7 +118,7 @@ public class Client {
         return data;
     }
 
-    private static void showResponse(Integer response, Integer requestType) {
+    private static void showResponse(Response response, Integer requestType) {
         // Este método irá mostrar a resposta do servidor.
         System.out.println("SERVIDOR:");
         if (response.get_status() == 1) { 
@@ -128,7 +128,7 @@ public class Client {
 
             }
         } else {
-            System.out.println("---\nA requisição solicitada falhou!\n---");
+            System.out.println("---\n" + response.get_status() + "\n---");
         }
     }
 
@@ -160,19 +160,19 @@ public class Client {
                 System.out.println("\nCLIENTE:\n--");
                 if (requestType == 1) {
                     data = getInsertData();
-                    response = nm.add_nota(data[0], data[1], data[2], data[3], data[4], data[5]);
+                    response = nm.add_nota(Integer.parseInt(data[0].toString()), data[1].toString(), Integer.parseInt(data[2].toString()), Integer.parseInt(data[3].toString()), Float.parseFloat(data[4].toString()), Integer.parseInt(data[5].toString()));
                 } else if (requestType == 2) {
                     data = getDeleteData();
-                    response = nm.remmove_nota(data[0], data[1], data[2], data[3]);
+                    // response = nm.remmove_nota(Integer.parseInt(data[0].toString()), data[1].toString(), Integer.parseInt(data[2].toString()), Integer.parseInt(data[3].toString()));
                 } else if (requestType == 3) {
                     data = getConsultStudent();
-                    response = nm.get_notas_by_aluno(data[0]);
+                    // response = nm.get_notas_by_aluno(Integer.parseInt(data[0].toString()));
                 } else if (requestType == 4) {
                     data = getConsultDiscipline();
-                    response = nm.list_alunos(data[1], data[2], data[3]);
+                    // response = nm.list_alunos(data[1].toString(), Integer.parseInt(data[2].toString()), Integer.parseInt(data[3].toString()));
                 } else if (requestType == 5) {
                     data = getConsultDiscipline();
-                    response = nm.list_notas(data[1], data[2], data[3]);
+                    // response = nm.list_notas(data[1].toString(), Integer.parseInt(data[2].toString()), Integer.parseInt(data[3].toString()));
                 } else {
                     break;
                 }

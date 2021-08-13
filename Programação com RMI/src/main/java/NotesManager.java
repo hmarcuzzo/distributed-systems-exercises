@@ -16,7 +16,7 @@ public class NotesManager extends UnicastRemoteObject implements NotesManagerRMI
         System.out.println("Instance of Object created with success");
     } //Calc
 
-    public Response add_grade(String RA, String disciplineCode, Integer disciplineYear, Integer disciplineSemester, Float grade, Integer absences) throws RemoteException {
+    public Response add_nota(Integer RA, String disciplineCode, Integer disciplineYear, Integer disciplineSemester, Float grade, Integer absences) throws RemoteException {
 
         String search_aluno_query = "SELECT * FROM aluno WHERE (ra = " + String.valueOf(RA) + ");";
         String search_discipline_query = "SELECT * FROM disciplina WHERE (codigo = '" + String.valueOf(disciplineCode)
@@ -75,7 +75,7 @@ public class NotesManager extends UnicastRemoteObject implements NotesManagerRMI
         }
     } //add_grade
 
-    public Response remove_grade (String RA, String disciplineCode, Integer disciplineYear, Integer disciplineSemester) throws RemoteException {
+    public Response remove_nota (Integer RA, String disciplineCode, Integer disciplineYear, Integer disciplineSemester) throws RemoteException {
         /* GET QUERYS */
         String search_aluno_query = "SELECT * FROM aluno WHERE (ra = " + String.valueOf(RA) + ");";
         String search_discipline_query = "SELECT * FROM disciplina WHERE (codigo = '" + String.valueOf(disciplineCode)
@@ -129,7 +129,7 @@ public class NotesManager extends UnicastRemoteObject implements NotesManagerRMI
     } //remove_grade
 
 
-    public Response get_grades_by_aluno (String RA) throws RemoteException {
+    public Response get_notas_by_aluno (Integer RA) throws RemoteException {
          Response resp = new Response(1);
         return resp.get();
     } // divide
@@ -172,7 +172,7 @@ public class NotesManager extends UnicastRemoteObject implements NotesManagerRMI
         return resp.get();
     } //multiplica
 
-    public Response list_grades (String disciplineCode, Integer disciplineYear, Integer disciplineSemester) throws RemoteException{
+    public Response list_notas (String disciplineCode, Integer disciplineYear, Integer disciplineSemester) throws RemoteException{
          Response resp = new Response(1);
         return resp.get();
     }

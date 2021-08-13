@@ -7,7 +7,7 @@
 import java.rmi.registry.Registry;
 import java.rmi.registry.LocateRegistry;
 
-public class Servidor {
+public class Server {
     public static void main(String args[]) {
        try {
             /* inicializa um objeto remoto */

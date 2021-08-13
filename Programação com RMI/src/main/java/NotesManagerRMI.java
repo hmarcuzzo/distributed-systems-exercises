@@ -14,9 +14,9 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 public interface NotesManagerRMI extends Remote {
-    public Response add_nota (String RA, String disciplineCode, Integer disciplineYear, Integer disciplineSemester, Float grade, Integer absences) throws RemoteException;
-    public Response remove_nota (String RA, String disciplineCode, Integer disciplineYear, Integer disciplineSemester) throws RemoteException;
-    public Response get_notas_by_aluno (String RA) throws RemoteException;
+    public Response add_nota (Integer RA, String disciplineCode, Integer disciplineYear, Integer disciplineSemester, Float grade, Integer absences) throws RemoteException;
+    public Response remove_nota (Integer RA, String disciplineCode, Integer disciplineYear, Integer disciplineSemester) throws RemoteException;
+    public Response get_notas_by_aluno (Integer RA) throws RemoteException;
     public Response list_alunos (String disciplineCode, Integer disciplineYear, Integer disciplineSemester) throws RemoteException;
     public Response list_notas (String disciplineCode, Integer disciplineYear, Integer disciplineSemester) throws RemoteException;
 }
