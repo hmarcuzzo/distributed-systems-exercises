@@ -31,24 +31,22 @@ public class NotesManager extends UnicastRemoteObject implements NotesManagerRMI
         String create_matricula = "INSERT INTO matricula (ano, semestre, cod_disciplina, ra_aluno, nota, faltas) VALUES ("
         + disciplineYear + ", " + disciplineSemester + ", '" + disciplineCode + "', " + RA + ", " + grade + ", " + absences + ");"; 
 
+
+        Connection db_connection = SQLiteConnection.connect();    
+        Statement statement = db_connection.createStatement();
         try {
 
-            
-            Connection db_connection = SQLiteConnection.connect();    
-            Statement statement = db_connection.createStatement();
 
             /* search for aluno */
             ResultSet resultSet = statement.executeQuery(search_aluno_query);
             if (!resultSet.isBeforeFirst()) {
-                response.setResponse("RA inexistente");
-                return "RA inexistente";
+                            /* nao achou */
+
             }
 
             /* search for disiplina */
             resultSet = statement.executeQuery(search_discipline_query);
             if (!resultSet.isBeforeFirst()) {
-                response.setResponse("Disciplina inexistente");
-                return "Disciplina inexistente";
             }
 
             /* search for matricula */
@@ -60,8 +58,6 @@ public class NotesManager extends UnicastRemoteObject implements NotesManagerRMI
                 /* search for disiplina */
                 ResultSet resultSet2 = statement.executeQuery(search_discipline_query);
                 if (!resultSet2.isBeforeFirst()) {
-                    response.setResponse("Disciplina inexistente");
-                    return "Disciplina inexistente";
                 }
                  
             } else {
@@ -74,7 +70,6 @@ public class NotesManager extends UnicastRemoteObject implements NotesManagerRMI
             return resp.get();
 
         } catch (SQLException e) {
-            response.setResponse(String.valueOf(e.getMessage()));
             Response resp = new Response(0);
             return resp.get();
         }
@@ -92,9 +87,10 @@ public class NotesManager extends UnicastRemoteObject implements NotesManagerRMI
             + " AND cod_disciplina = '" + String.valueOf(disciplineCode) + "' AND ano = " + String.valueOf(disciplineYear)
             + " AND semestre = " + String.valueOf(disciplineSemester) + ");";
 
+        Connection db_connection = SQLiteConnection.connect();    
+        Statement statement = db_connection.createStatement();
         try {
-            Connection db_connection = SQLiteConnection.connect();    
-            Statement statement = db_connection.createStatement();
+    
 
             /* search for aluno */
             ResultSet resultSet = statement.executeQuery(search_aluno_query);
@@ -143,42 +139,27 @@ public class NotesManager extends UnicastRemoteObject implements NotesManagerRMI
         String disciplina_query = "SELECT * FROM disciplina WHERE (codigo = '" + String.valueOf(disciplineCode) + "');";
         String get_alunos_query = "SELECT *  FROM aluno as A JOIN matricula AS M ON A.RA = M.ra_aluno WHERE (M.ano = " + String.valueOf(disciplineYear) + " AND M.semestre = " + String.valueOf(disciplineSemester) + " AND M.cod_disciplina = '" + String.valueOf(disciplineCode) + "');";
         
+        Connection db_connection = SQLiteConnection.connect(); 
+        Statement statement = db_connection.createStatement();
         try {
-
-            Connection db_connection = SQLiteConnection.connect(); 
-            Statement statement = db_connection.createStatement();
 
             /* search for disiplina */
             ResultSet resultSet = statement.executeQuery(disciplina_query);
             if (!resultSet.isBeforeFirst()) {
-                response.setResponse("Disciplina inexistente");
-                return "Disciplina inexistente";
+            /* n existe*/
             }
 
             /* Lista alunos */
             resultSet = statement.executeQuery(get_alunos_query);
             if (!resultSet.isBeforeFirst()) {
-                response.setResponse(
-                    "Nesta disciplina nao há alunos matriculados em " + String.valueOf(disciplineYear) + "/" + String.valueOf(disciplineSemester));
-                return ("Nesta disciplina nao há alunos matriculados em " + String.valueOf(disciplineYear) + "/"
-                    + String.valueOf(disciplineSemester));
+              
             }
 
             while (resultSet.next()) {
 
                 /* Construindo Matricula */
-                Matricula.Builder matricula = Matricula.newBuilder();
-                
-                /* Adicionando valores a matricula */
-                matricula.setRA(resultSet.getInt("ra_aluno"));
-                matricula.setNota(resultSet.getFloat("nota"));
-                matricula.setFaltas(resultSet.getInt("faltas"));
-                matricula.setCodDisciplina(resultSet.getString("disciplineCode"));
-                matricula.setAno(resultSet.getInt("disciplineYear"));
-                matricula.setSemestre(resultSet.getInt("disciplineSemester"));
-
                 /* Adicionando matricula */
-                response.addMatriculas(matricula);
+                  
             }
             
              
