@@ -63,11 +63,11 @@ public class NotesManager extends UnicastRemoteObject implements NotesManagerRMI
                     response.setResponse("Disciplina inexistente");
                     return "Disciplina inexistente";
                 }
-                response.setResponse("1");
+                 
             } else {
                 /* Atualiza grade */
                 statement.execute(update_grade_query);
-                response.setResponse("1");
+                 
             }
 
             Response resp = new Response(1);
@@ -181,7 +181,7 @@ public class NotesManager extends UnicastRemoteObject implements NotesManagerRMI
                 response.addMatriculas(matricula);
             }
             
-            response.setResponse("1");
+             
 
         } catch (SQLException e) {
             Response resp = new Response(0);
