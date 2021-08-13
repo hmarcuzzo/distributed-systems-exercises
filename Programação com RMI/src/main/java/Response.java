@@ -13,20 +13,21 @@
 import java.io.Serializable;
 
 public class Response implements Serializable {
-  static int response_status_code;
-  static String error;
-  static String response_data;
+  private int response_status_code;
+  private String error;
+  private String response_data;
 
   public Response(){
     System.out.println("constructor with no parameter");
   }
 
-  public Response(int response_status_code){
+  public Response(int response_status_code) {
+    this.response_status_code = response_status_code;
     System.out.println("constructor with one parameter");
   }
   
-  public static int get_status(){
-    return response_status_code;
+  public int get_status(){
+    return this.response_status_code;
   }
 
   public Response get(){

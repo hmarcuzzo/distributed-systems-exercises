@@ -72,7 +72,7 @@ public class NotesManager extends UnicastRemoteObject implements NotesManagerRMI
 
         } catch (SQLException e) {
             Response resp = new Response(0);
-            return resp.get();
+            return resp;
         }
     } //add_grade
 
@@ -97,7 +97,7 @@ public class NotesManager extends UnicastRemoteObject implements NotesManagerRMI
             if (!resultSet.isBeforeFirst()) {
                 //response.setResponse("RA inexistente");
                 Response resp = new Response(0);
-                return resp.get();
+                return resp;
             }
 
             /* search for disiplina */
@@ -105,32 +105,32 @@ public class NotesManager extends UnicastRemoteObject implements NotesManagerRMI
             if (!resultSet.isBeforeFirst()) {
                 //response.setResponse("Disciplina inexistente");
                 Response resp = new Response(0);
-                return resp.get();
+                return resp;
             }
 
             /* search for matricula */
             resultSet = statement.executeQuery(search_matricula_query);
             if (!resultSet.isBeforeFirst()) {
                 Response resp = new Response(0);
-                return resp.get();
+                return resp;
             }
 
             /* remove nota */
             statement.execute(remove_nota_query);
             Response resp = new Response(1);
-            return resp.get();
+            return resp;
 
         } catch (SQLException e) {
             Response resp = new Response(1);
         }
         Response resp = new Response(1);
-        return resp.get();
+        return resp;
     } //remove_grade
 
 
     public Response get_notas_by_aluno (Integer RA) throws RemoteException {
-         Response resp = new Response(1);
-        return resp.get();
+        Response resp = new Response(1);
+        return resp;
     } // divide
 
     public Response list_alunos (String disciplineCode, Integer disciplineYear, Integer disciplineSemester) throws RemoteException {
@@ -164,15 +164,15 @@ public class NotesManager extends UnicastRemoteObject implements NotesManagerRMI
 
         } catch (SQLException e) {
             Response resp = new Response(0);
-            return resp.get();
+            return resp;
         }
         Response resp = new Response(1);
-        return resp.get();
+        return resp;
     } //multiplica
 
     public Response list_notas (String disciplineCode, Integer disciplineYear, Integer disciplineSemester) throws RemoteException{
          Response resp = new Response(1);
-        return resp.get();
+        return resp;
     }
 
 } //get_grades_by_aluno
