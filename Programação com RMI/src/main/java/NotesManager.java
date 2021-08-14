@@ -246,4 +246,4 @@ public class NotesManager extends UnicastRemoteObject implements NotesManagerRMI
         return resp;
     }
 
-} //get_grades_by_aluno
+} //list_notas
