@@ -122,11 +122,12 @@ public class Client {
         // Este método irá mostrar a resposta do servidor.
         System.out.println("SERVIDOR:");
         System.out.println("--");
-        if (response.get_status() == 1) { 
+        if (response.get_response_status_code() == 1) { 
             if (requestType == 1 || requestType == 2) { 
                 System.out.println("Requisição feita com sucesso!");
             } else {
                 if (requestType == 3) {
+
 
                 } else if (requestType == 4) {
 
