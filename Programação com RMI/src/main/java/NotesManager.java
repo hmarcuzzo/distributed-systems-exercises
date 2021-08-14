@@ -130,20 +130,42 @@ public class NotesManager extends UnicastRemoteObject implements NotesManagerRMI
 
     public Response get_notas_by_aluno (Integer RA) throws RemoteException {
         Response resp = new Response(1);
+        String get_alunos_query = "SELECT *  FROM matricula WHERE (ra_aluno = '" + String.valueOf(RA) + "');";
 
-        NotasByAluno nota = new NotasByAluno();
-        nota.set_cod_disciplina("BCC36C");
-        nota.set_ano(2009);
-        nota.set_semestre(1);
-        nota.set_nota(7.5f);
-        nota.set_faltas(2);
-        resp.set_notas_by_aluno(nota);
+        Connection db_connection = SQLiteConnection.connect();  
+        try {
+            Statement statement = db_connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(get_alunos_query);
+            if (!resultSet.isBeforeFirst()) {
+            /* n existe*/
+            }
 
-        // for (NotasByAluno notaByAluno : allNotasByAluno) {
-        //     resp.set_notas_by_aluno(notaByAluno);  
-        // }
+            while (resultSet.next()) {
+                int faltas = resultSet.getInt("faltas");
+                int ano = resultSet.getInt("ano");
+                int semestre = resultSet.getInt("semestre");
+                float nota_aluno = resultSet.getFloat("nota");
+                String cod_disciplina = resultSet.getString("cod_disciplina");
 
-        return resp;
+                    /* Construindo Matricula */
+                     
+                NotasByAluno nota = new NotasByAluno();
+                nota.set_cod_disciplina(cod_disciplina);
+                nota.set_ano(ano);
+                nota.set_semestre(semestre);
+                nota.set_nota(nota_aluno);
+                nota.set_faltas(faltas);
+
+                resp.set_notas_by_aluno(nota);
+                           
+            }
+            return resp;
+        } catch (SQLException e) {
+            Response error = new Response(0);
+            error.set_error("Erro desconhecido");
+            return resp;
+        }
+
     } // divide
 
     public Response list_alunos (String disciplineCode, Integer disciplineYear, Integer disciplineSemester) throws RemoteException {
