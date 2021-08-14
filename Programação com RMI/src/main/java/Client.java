@@ -151,7 +151,15 @@ public class Client {
                     }
 
                 } else if (requestType == 5) {
-                    List<Nota
+                    List<NotasByDisciplina> allNotasByDisciplina = response.get_notas_by_disciplina();
+
+                    for (NotasByDisciplina notaByDisciplina : allNotasByDisciplina) {
+                        System.out.println("------");
+                        System.out.println("RA: " + notaByDisciplina.get_RA());
+                        System.out.println("Nota: " + notaByDisciplina.get_nota());
+                        System.out.println("Falta: " + notaByDisciplina.get_faltas());
+                        System.out.println("------");
+                    }
                 }
             }
         } else {
