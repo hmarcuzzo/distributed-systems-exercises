@@ -17,16 +17,9 @@ import java.util.List;
 public class Response implements Serializable {
   private int response_status_code;
   private String error;
-<<<<<<< HEAD
-  private String response_data;
-  private NotasByAluno[] notasByAlunoResponse;
-  private Aluno[] alunosByDisciplina;
-  private NotasByDisciplina[] notasByDisciplina;
-=======
   private List<NotasByAluno> notasByAlunoResponse;
   private List<Aluno> alunosByDisciplina;
   private List<NotasByDisciplina> notasByDisciplina;
->>>>>>> e3f9962468646836f0f7e686e9acac2c0b52ace2
 
   public Response() {
     notasByAlunoResponse = new ArrayList<NotasByAluno>();
@@ -50,22 +43,9 @@ public class Response implements Serializable {
     return this.response_status_code;
   }
 
-<<<<<<< HEAD
-  public NotasByAluno[] get_notas_by_aluno(){
-    return this.notasByAlunoResponse;
-  }
-
-  public Aluno[] get_alunos_by_disciplina(){
-    return this.alunosByDisciplina;
-  }
-
-  public NotasByDisciplina[] get_notas_by_disciplina(){
-    return this.notasByDisciplina
-=======
   
   public void set_error(String error) {
     this.error = error;
->>>>>>> e3f9962468646836f0f7e686e9acac2c0b52ace2
   }
 
   public String get_error() {
@@ -96,39 +76,3 @@ public class Response implements Serializable {
     return this.notasByDisciplina;
   }
 }
-<<<<<<< HEAD
-
-
-public class NotasByAluno {
-    private String cod_disciplina;
-    private int ano;
-    private int semestre;
-    private float nota;
-    private int faltas;
-
-  public NotasByAluno(){
-    System.out.println("constructor with no parameter");
-  }
-
-}
-
-public class Aluno {
-    private int RA;
-    private String nome;
-    public Aluno(){
-      System.out.println("constructor with no parameter");
-    }
-}
-
-
-
-public class NotasByDisciplina {
-    private int RA;
-    private float nota;
-
-    public NotasByDisciplina(){
-      System.out.println("constructor with no parameter");
-    }
-}
-=======
->>>>>>> e3f9962468646836f0f7e686e9acac2c0b52ace2
