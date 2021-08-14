@@ -1,4 +1,6 @@
-public class NotasByAluno {
+import java.io.Serializable;
+
+public class NotasByAluno implements Serializable {
     private String cod_disciplina;
     private int ano;
     private int semestre;

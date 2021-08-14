@@ -130,6 +130,19 @@ public class NotesManager extends UnicastRemoteObject implements NotesManagerRMI
 
     public Response get_notas_by_aluno (Integer RA) throws RemoteException {
         Response resp = new Response(1);
+
+        NotasByAluno nota = new NotasByAluno();
+        nota.set_cod_disciplina("BCC36C");
+        nota.set_ano(2009);
+        nota.set_semestre(1);
+        nota.set_nota(7.5f);
+        nota.set_faltas(2);
+        resp.set_notas_by_aluno(nota);
+
+        // for (NotasByAluno notaByAluno : allNotasByAluno) {
+        //     resp.set_notas_by_aluno(notaByAluno);  
+        // }
+
         return resp;
     } // divide
 

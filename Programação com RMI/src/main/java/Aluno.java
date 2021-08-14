@@ -1,4 +1,6 @@
-public class Aluno {
+import java.io.Serializable;
+
+public class Aluno implements Serializable {
     private int RA;
     private String nome;
   

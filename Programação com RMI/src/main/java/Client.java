@@ -13,6 +13,7 @@
 import java.rmi.registry.Registry;
 import java.rmi.registry.LocateRegistry;
 import java.util.Scanner;
+import java.util.List;
 
 public class Client {
     private static Integer getStudentRA() {
@@ -127,12 +128,30 @@ public class Client {
                 System.out.println("Requisição feita com sucesso!");
             } else {
                 if (requestType == 3) {
+                    List<NotasByAluno> allNotasByAluno = response.get_notas_by_aluno();
 
+                    for (NotasByAluno notaByAluno : allNotasByAluno) {
+                        System.out.println("------");
+                        System.out.println("Código: " + notaByAluno.get_cod_disciplina());
+                        System.out.println("Ano: " + notaByAluno.get_ano());
+                        System.out.println("Semestre: " + notaByAluno.get_semestre());
+                        System.out.println("Nota: " + notaByAluno.get_nota());
+                        System.out.println("Faltas: " + notaByAluno.get_faltas());
+                        System.out.println("------");
+                    }
 
                 } else if (requestType == 4) {
+                    List<Aluno> allAlunosByDisciplina = response.get_alunos_by_disciplina();
+
+                    for (Aluno alunoByDisciplina : allAlunosByDisciplina) {
+                        System.out.println("------");
+                        System.out.println("RA: " + alunoByDisciplina.get_RA());
+                        System.out.println("Nome: " + alunoByDisciplina.get_nome());
+                        System.out.println("------");
+                    }
 
                 } else if (requestType == 5) {
-
+                    
                 }
             }
         } else {

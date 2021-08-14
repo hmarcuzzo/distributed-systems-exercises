@@ -1,4 +1,6 @@
-public class NotasByDisciplina {
+import java.io.Serializable;
+
+public class NotasByDisciplina implements Serializable {
     private int RA;
     private float nota;
     private int faltas;
