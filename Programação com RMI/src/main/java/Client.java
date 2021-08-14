@@ -183,11 +183,11 @@ public class Client {
             Integer requestType;
 
             while (true) {
-                System.out.println("\nDeseja fazer a Inserção de Notas (1), Remoção de Notas (2), Consultar Notas (3), Consultar Notas em um ano/semestre (4), Consultar Alunos em um ano/semestre (5) ou Sair (0): ");
+                System.out.println("\nDeseja fazer a Inserção de Notas (1), Remoção de Notas (2), Consultar Notas (3), Consultar Alunos em um ano/semestre (4), Consultar Notas em um ano/semestre (5) ou Sair (0): ");
                 requestType = Integer.parseInt(new Scanner(System.in).nextLine());  
                 while (requestType > 5 || requestType < 0) {
                     System.out.println("Não conheço este tipo de requisição.\n");
-                    System.out.println("\nDeseja fazer a Inserção de Notas (1), Remoção de Notas (2), Consultar Notas de um aluno (3), Consultar Notas em um ano/semestre (4), Consultar Alunos em um ano/semestre (5) ou Sair (0): ");
+                    System.out.println("\nDeseja fazer a Inserção de Notas (1), Remoção de Notas (2), Consultar Notas de um aluno (3), Consultar Alunos em um ano/semestre (4), Consultar Notas em um ano/semestre (5) ou Sair (0): ");
                     requestType = Integer.parseInt(new Scanner(System.in).nextLine());
                 }
                 
@@ -210,6 +210,7 @@ public class Client {
                     data = getConsultDiscipline();
                     response = nm.list_notas(data[1].toString(), Integer.parseInt(data[2].toString()), Integer.parseInt(data[3].toString()));
                 } else {
+                    System.out.println("Tchau!--\n");
                     break;
                 }
                 System.out.println("--\n");
