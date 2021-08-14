@@ -203,10 +203,46 @@ public class NotesManager extends UnicastRemoteObject implements NotesManagerRMI
             return error;
         }
         return resp;
-    } //multiplica
+    } //list_alunos
 
     public Response list_notas (String disciplineCode, Integer disciplineYear, Integer disciplineSemester) throws RemoteException{
-         Response resp = new Response(1);
+        Response resp = new Response(1);
+        String disciplina_query = "SELECT * FROM disciplina WHERE (codigo = '" + String.valueOf(disciplineCode) + "');";
+        String get_alunos_query = "SELECT A.ra, M.nota, M.faltas FROM aluno as A JOIN matricula AS M ON A.RA = M.ra_aluno WHERE (M.ano = " + String.valueOf(disciplineYear) + " AND M.semestre = " + String.valueOf(disciplineSemester) + " AND M.cod_disciplina = '" + String.valueOf(disciplineCode) + "');";
+        
+        Connection db_connection = SQLiteConnection.connect(); 
+        try {
+            Statement statement = db_connection.createStatement();
+            /* search for disiplina */
+            ResultSet resultSet = statement.executeQuery(disciplina_query);
+            if (!resultSet.isBeforeFirst()) {
+            /* n existe*/
+            }
+
+            /* Lista alunos */
+            resultSet = statement.executeQuery(get_alunos_query);
+            if (!resultSet.isBeforeFirst()) {
+              
+            }
+
+            while (resultSet.next()) {
+                float nota = resultSet.getFloat("nota");
+                int faltas = resultSet.getInt("faltas");
+                int ra = resultSet.getInt("ra");
+                NotasByDisciplina alunoNotas = new NotasByDisciplina();
+                
+                alunoNotas.set_RA(ra);
+                alunoNotas.set_faltas(faltas);
+                alunoNotas.set_nota(nota);
+
+                resp.set_notas_by_disciplina(alunoNotas);     
+            }
+
+        } catch (SQLException e) {
+            Response error = new Response(0);
+            error.set_error("Erro desconhecido");
+            return error;
+        }
         return resp;
     }
 
