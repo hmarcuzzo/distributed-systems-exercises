@@ -169,9 +169,9 @@ public class NotesManager extends UnicastRemoteObject implements NotesManagerRMI
     } // divide
 
     public Response list_alunos (String disciplineCode, Integer disciplineYear, Integer disciplineSemester) throws RemoteException {
-        
+        Response resp = new Response(1);
         String disciplina_query = "SELECT * FROM disciplina WHERE (codigo = '" + String.valueOf(disciplineCode) + "');";
-        String get_alunos_query = "SELECT *  FROM aluno as A JOIN matricula AS M ON A.RA = M.ra_aluno WHERE (M.ano = " + String.valueOf(disciplineYear) + " AND M.semestre = " + String.valueOf(disciplineSemester) + " AND M.cod_disciplina = '" + String.valueOf(disciplineCode) + "');";
+        String get_alunos_query = "SELECT A.ra, A.nome FROM aluno as A JOIN matricula AS M ON A.RA = M.ra_aluno WHERE (M.ano = " + String.valueOf(disciplineYear) + " AND M.semestre = " + String.valueOf(disciplineSemester) + " AND M.cod_disciplina = '" + String.valueOf(disciplineCode) + "');";
         
         Connection db_connection = SQLiteConnection.connect(); 
         try {
@@ -189,19 +189,19 @@ public class NotesManager extends UnicastRemoteObject implements NotesManagerRMI
             }
 
             while (resultSet.next()) {
-
-                /* Construindo Matricula */
-                /* Adicionando matricula */
-                  
+                String nome = resultSet.getString("nome");
+                int ra = resultSet.getInt("ra");
+                Aluno aluno = new Aluno();
+                aluno.set_nome(nome);
+                aluno.set_RA(ra);
+                resp.set_alunos_by_disciplina(aluno);     
             }
-            
-             
 
         } catch (SQLException e) {
-            Response resp = new Response(0);
-            return resp;
+            Response error = new Response(0);
+            error.set_error("Erro desconhecido");
+            return error;
         }
-        Response resp = new Response(1);
         return resp;
     } //multiplica
 
