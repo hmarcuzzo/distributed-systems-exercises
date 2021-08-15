@@ -70,9 +70,9 @@ Para isso basta selecionar uma opção no cliente e inserir todos os dados solic
 
 * Lembre-se sempre de inserir dados pré existentes no banco para os campos de ***RA*** e ***CÓDIGO***!
 
-Ver exemplo abaixo:
+<!-- Ver exemplo abaixo:
 
-![Exemplo do Cliente](img/exemplo_cliente.png)
+![Exemplo do Cliente](img/exemplo_cliente.png) -->
 
 Autores
 =======
