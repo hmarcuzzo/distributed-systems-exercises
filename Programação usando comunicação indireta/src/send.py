@@ -1,7 +1,4 @@
-import pika
-import pandas as pd
-import sys
-import json
+import pika, sys, json, pandas as pd
 
 
 

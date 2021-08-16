@@ -1,4 +1,4 @@
-import pika, sys, os
+import pika, sys, os, json
 
 from datetime import datetime
 
@@ -28,12 +28,23 @@ def main():
     channel.queue_bind(exchange='logs', queue=queue_name)
 
     print(' [*] Esperando menssagens. Para sair pressione CTRL+C')
-    print(f' [*] Todas as menssagens estão sendo direcionadas para o arquivo: {filename}')
+    # print(f' [*] Todas as menssagens estão sendo direcionadas para o arquivo: {filename}')
 
     def callback(ch, method, properties, body):
-        message = datetime.now().strftime("%Y-%m-%d %H:%M:%S") + ' '
-        with open(filename, "a") as file:
-            file.write(message)
+        data = json.loads(body)
+        message = f'------------------\n' \
+            + f'{datetime.now().strftime("%Y-%m-%d %H:%M:%S")}\n' \
+            + f'\tAirlane: {data["airline"]}\n' \
+            + f'\tName: {data["name"]}\n' \
+            + f'\tRetweets: {data["retweet_count"]}\n' \
+            + f'\tText: {data["text"]}\n' \
+            + f'\tCreated at: {data["tweet_created"]}\n' \
+            + '------------------'
+
+        print(message)
+
+        # with open(filename, "a") as file:
+        #     file.write(message)
 
     channel.basic_consume(queue=queue_name, on_message_callback=callback, auto_ack=True)
 

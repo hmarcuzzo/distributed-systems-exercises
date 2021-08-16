@@ -1,6 +1,5 @@
-import pika, sys, os
-import pandas as pd
-import json
+import pika, sys, os, json, pandas as pd
+
 
 def main():
     connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))

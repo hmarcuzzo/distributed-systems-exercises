@@ -31,25 +31,23 @@ Antes de começar, vai precisar ter instalado na sua máquina as seguintes ferra
 Executando o projeto
 ====================
 
-## 🎲 Servidor
-### Compilando
-```bash
-# Na pasta do src/main/java execute:
-$ javac -cp ":lib/*": *.java
-```
-### Executando
-```bash
-# Na pasta do src/main/java execute:
-$ rmiregistry
-# Em outro terminal execute:
-$ java -cp ":lib/*" Server
-```
 ## 🎲 Cliente
-### Executando
 ```bash
-# Na pasta do src/main/java execute:
-$ java -cp ":lib/*" Client
+# Na pasta do src/ execute:
+$ python3 client.py
 ```
+
+## 🎲 Recive
+```bash
+# Na pasta do src/ execute:
+$ python3 recive.py
+```
+## 🎲 Send
+```bash
+# Na pasta do src/ execute:
+$ python3 send.py
+```
+
 
 Bibliotecas Utilizadas
 ==============
@@ -57,19 +55,18 @@ Bibliotecas Utilizadas
 As seguintes bibliotecas foram usadas na construção do projeto:
 #### Python
 - [Pika]()
+- [Datatime]()
+- [Pandas]()
+- [Json]()
 
 Exemplos de Uso
 ==============
 
-Nesta versão o cliente e servidor são capazes de executar a Inserção, Remoção e Consulta de dados na tabela de Matrícula e consultas em na tabela de Alunos.
+Nesta versão o cliente seleciona o tópico de interesse que deseja receber notificações. 
 
-Para isso basta selecionar uma opção no cliente e inserir todos os dados solicitados. 
+Assim toda mensagem encontrada relacionada ao assunto de interesse do cliente será enviado a notificação.
 
-* Lembre-se sempre de inserir dados pré existentes no banco para os campos de ***RA*** e ***CÓDIGO***!
-
-Ver exemplo abaixo:
-
-![Exemplo do Cliente](img/exemplo_cliente.png)
+*Obs:* É importante que o cliente seja iniciado préviamente. 
 
 Autores
 =======
