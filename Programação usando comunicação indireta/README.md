@@ -1,6 +1,7 @@
 <h1 align="center">Programação com Comunicação Indireta</h1>
 <p href="#descricao" align="center"> Exercícios avalativos de Sistemas Distribuidos utilizando comunicação indireta.
- O objetivo é tornar a entrada, classificação e geração de filas direcionadas de acordo com o conteúdo do tweet.  
+ O objetivo é tornar a entrada, classificação e geração de filas direcionadas de acordo com o conteúdo do tweet.
+Pode-se utilizar essas informações para um sistema de recomendação de melhorias ou mudanças na empresa.
 Filas de classificação de tweets para viagens aéreas. O algoritmo recebe uma entrada no formato csv contendo tweets, processa as informações do tweet, classifica ele como positivo, neutro e negativo em relação a compania aérea. Cada tweet é classificado e colocado em uma fila: a fila de tweets negativos vão para o RH da empresa. Os positivos vão para publicidade. E os neutros são contabilizados para análise de melhoria. </p>
 
 <div align="center">
