@@ -4,10 +4,10 @@ from datetime import datetime
 
 
 def main():
-    request_type = int(input('\nDeseja receber informações de tweets de sentimentos Neutro (1), Positivo (2) ou Negativo (3):'))
+    request_type = int(input('\nDeseja receber informações de tweets de sentimentos Neutro (1), Positivo (2) ou Negativo (3): '))
     while request_type > 3 or request_type < 1:
             print("Não conheço este tipo de requisição.\n")
-            request_type = int(input('\nDeseja receber informações de tweets de sentimentos Neutro (1), Positivo (2) ou Negativo (3):'))
+            request_type = int(input('\nDeseja receber informações de tweets de sentimentos Neutro (1), Positivo (2) ou Negativo (3): '))
 
     if request_type == 1:
         name_queue = 'neutral'
@@ -20,12 +20,12 @@ def main():
     connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
     channel = connection.channel()
 
-    channel.exchange_declare(exchange='logs', exchange_type='fanout')
+    channel.exchange_declare(exchange=f'logs_{name_queue}', exchange_type='fanout')
 
     result = channel.queue_declare(queue=name_queue, exclusive=True)
     queue_name = result.method.queue
 
-    channel.queue_bind(exchange='logs', queue=queue_name)
+    channel.queue_bind(exchange=f'logs_{name_queue}', queue=queue_name)
 
     print(' [*] Esperando menssagens. Para sair pressione CTRL+C')
     # print(f' [*] Todas as menssagens estão sendo direcionadas para o arquivo: {filename}')
@@ -36,6 +36,7 @@ def main():
             + f'{datetime.now().strftime("%Y-%m-%d %H:%M:%S")}\n' \
             + f'\tAirlane: {data["airline"]}\n' \
             + f'\tName: {data["name"]}\n' \
+            + f'\tSentiment: {data["airline_sentiment"]}\n' \
             + f'\tRetweets: {data["retweet_count"]}\n' \
             + f'\tText: {data["text"]}\n' \
             + f'\tCreated at: {data["tweet_created"]}\n' \

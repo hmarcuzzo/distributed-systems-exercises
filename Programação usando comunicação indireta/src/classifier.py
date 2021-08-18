@@ -12,20 +12,20 @@ def main():
         tweet_id = tweet['tweet_id']
         tweet_sentiment = tweet['airline_sentiment']
         
-        channel.exchange_declare(exchange='logs', exchange_type='fanout')
 
         routing_key = ''
 
-        if(tweet_sentiment == 'neutral'):
+        if tweet_sentiment == 'neutral':
             routing_key = 'neutral'
 
-        elif(tweet_sentiment == 'positive'):
+        elif tweet_sentiment == 'positive':
             routing_key = 'positive'
 
-        elif (tweet_sentiment == 'negative'):
+        elif tweet_sentiment == 'negative':
             routing_key = 'negative'
 
-        channel.basic_publish(exchange='logs', routing_key=routing_key, body=body)
+        channel.exchange_declare(exchange=f'logs_{routing_key}', exchange_type='fanout')
+        channel.basic_publish(exchange=f'logs_{routing_key}', routing_key=routing_key, body=body)
         
         print(" [x] Classified %r" % tweet_id)
 
