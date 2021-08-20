@@ -24,8 +24,8 @@ def main():
         elif tweet_sentiment == 'negative':
             routing_key = 'negative'
 
-        channel.exchange_declare(exchange=f'logs_{routing_key}', exchange_type='fanout')
-        channel.basic_publish(exchange=f'logs_{routing_key}', routing_key=routing_key, body=body)
+        channel.exchange_declare(exchange='direct_logs', exchange_type='direct')
+        channel.basic_publish(exchange='direct_logs', routing_key=routing_key, body=body)
         
         print(" [x] Classified %r" % tweet_id)
 

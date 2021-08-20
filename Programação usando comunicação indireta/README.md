@@ -43,12 +43,12 @@ $ python3 client.py
 ## 🎲 Recive
 ```bash
 # Na pasta do src/ execute:
-$ python3 recive.py
+$ python3 classifier.py
 ```
 ## 🎲 Send
 ```bash
 # Na pasta do src/ execute:
-$ python3 send.py
+$ python3 collector.py
 ```
 
 

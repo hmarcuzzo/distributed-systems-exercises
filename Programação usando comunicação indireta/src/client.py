@@ -15,17 +15,17 @@ def main():
         name_queue = 'positive'
     elif request_type == 3:
         name_queue = 'negative'
-    filename = name_queue + '.log'
+    filename = name_queue + '2.log'
 
     connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
     channel = connection.channel()
 
-    channel.exchange_declare(exchange=f'logs_{name_queue}', exchange_type='fanout')
+    channel.exchange_declare(exchange='direct_logs', exchange_type='direct')
 
-    result = channel.queue_declare(queue=name_queue, exclusive=True)
+    result = channel.queue_declare(queue='', exclusive=False)
     queue_name = result.method.queue
 
-    channel.queue_bind(exchange=f'logs_{name_queue}', queue=queue_name)
+    channel.queue_bind(exchange='direct_logs', queue=queue_name, routing_key=name_queue)
 
     print(' [*] Esperando menssagens. Para sair pressione CTRL+C')
     # print(f' [*] Todas as menssagens estão sendo direcionadas para o arquivo: {filename}')
@@ -40,12 +40,12 @@ def main():
             + f'\tRetweets: {data["retweet_count"]}\n' \
             + f'\tText: {data["text"]}\n' \
             + f'\tCreated at: {data["tweet_created"]}\n' \
-            + '------------------'
+            + '------------------\n'
 
-        print(message)
+        print(message) 
 
-        # with open(filename, "a") as file:
-        #     file.write(message)
+        with open(filename, "a") as file:
+            file.write(message)
 
     channel.basic_consume(queue=queue_name, on_message_callback=callback, auto_ack=True)
 
