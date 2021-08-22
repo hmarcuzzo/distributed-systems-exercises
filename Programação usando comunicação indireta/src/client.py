@@ -15,7 +15,7 @@ def main():
         name_queue = 'positive'
     elif request_type == 3:
         name_queue = 'negative'
-    filename = name_queue + '2.log'
+    filename = name_queue + '.log'
 
     connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
     channel = connection.channel()
@@ -44,8 +44,8 @@ def main():
 
         print(message) 
 
-        with open(filename, "a") as file:
-            file.write(message)
+        # with open(filename, "a") as file:
+        #     file.write(message)
 
     channel.basic_consume(queue=queue_name, on_message_callback=callback, auto_ack=True)
 
